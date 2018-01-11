@@ -7,13 +7,21 @@
 
 package org.usfirst.frc.team171.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team171.robot.commands.ExampleCommand;
 import org.usfirst.frc.team171.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team171.robot.subsystems.Gyro;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,8 +31,10 @@ import org.usfirst.frc.team171.robot.subsystems.DriveTrain;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static OI m_oi;
+	public static OI oi;
 	public static DriveTrain driveTrain;
+	public static AHRS imu;
+	public static Gyro gyro;
 	
 	
 	Command m_autonomousCommand;
@@ -37,11 +47,27 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		RobotMap.init();
-		m_oi = new OI();
-		
+		oi = new OI();
+		driveTrain = new DriveTrain();
+		gyro = new Gyro();
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		
+		try {
+			imu = new AHRS(SPI.Port.kMXP);
+			// imu = new AHRS(SerialPort.Port.kUSB1);
+			imu.setPIDSourceType(PIDSourceType.kDisplacement);
+
+		} catch (Exception ex) {
+			DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+		}
+		if (imu != null) {
+			LiveWindow.addSensor("IMU", "Gyro", imu);
+		}
+		Timer.delay(3);
+
+		imu.reset();
 	}
 
 	/**

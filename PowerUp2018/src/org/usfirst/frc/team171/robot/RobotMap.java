@@ -7,8 +7,10 @@
 
 package org.usfirst.frc.team171.robot;
 
+import org.usfirst.frc.team171.RobotMotion.SwerveModule;
 import org.usfirst.frc.team171.robot.subsystems.AbsoluteEncoder;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 
 /**
@@ -37,10 +39,20 @@ public class RobotMap {
 	public static PWMTalonSRX driveRightFrontDirMotor;
 	public static PWMTalonSRX driveRightBackDirMotor;
 	
-	public static AbsoluteEncoder leftFrontEncoder;
-	public static AbsoluteEncoder leftBackEncoder;
-	public static AbsoluteEncoder rightFrontEncoder;
-	public static AbsoluteEncoder rightBackEncoder;
+	public static AbsoluteEncoder leftFrontDirEncoder;
+	public static AbsoluteEncoder leftBackDirEncoder;
+	public static AbsoluteEncoder rightFrontDirEncoder;
+	public static AbsoluteEncoder rightBackDirEncoder;
+	
+	public static Encoder leftFrontEncoder;
+	public static Encoder leftBackEncoder;
+	public static Encoder rightFrontEncoder;
+	public static Encoder rightBackEncoder;
+	
+	public static SwerveModule leftFrontSwerve;
+	public static SwerveModule leftBackSwerve;
+	public static SwerveModule rightFrontSwerve;
+	public static SwerveModule rightBackSwerve;
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
@@ -58,9 +70,19 @@ public class RobotMap {
 		driveRightFrontDirMotor = new PWMTalonSRX(6);
 		driveRightBackDirMotor = new PWMTalonSRX(7);
 		
-		leftFrontEncoder = new AbsoluteEncoder(0);
-		leftBackEncoder = new AbsoluteEncoder(1);
-		rightFrontEncoder = new AbsoluteEncoder(2);
-		rightBackEncoder = new AbsoluteEncoder(3);
+		leftFrontDirEncoder = new AbsoluteEncoder(0);
+		leftBackDirEncoder = new AbsoluteEncoder(1);
+		rightFrontDirEncoder = new AbsoluteEncoder(2);
+		rightBackDirEncoder = new AbsoluteEncoder(3);
+		
+		leftFrontEncoder = new Encoder(0, 1);
+		leftBackEncoder = new Encoder(2, 3);
+		rightFrontEncoder = new Encoder(4, 5);
+		rightBackEncoder = new Encoder(6, 7);
+		
+		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder);
+		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder);
+		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder);
+		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder);
 	}
 }
