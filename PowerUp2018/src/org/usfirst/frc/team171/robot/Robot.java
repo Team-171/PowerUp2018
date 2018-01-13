@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team171.robot.commands.ExampleCommand;
 import org.usfirst.frc.team171.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team171.robot.subsystems.Gyro;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -54,20 +55,20 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
-		try {
-			imu = new AHRS(SPI.Port.kMXP);
-			// imu = new AHRS(SerialPort.Port.kUSB1);
-			imu.setPIDSourceType(PIDSourceType.kDisplacement);
-
-		} catch (Exception ex) {
-			DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
-		}
-		if (imu != null) {
-			LiveWindow.addSensor("IMU", "Gyro", imu);
-		}
-		Timer.delay(3);
-
-		imu.reset();
+//		try {
+////			imu = new AHRS(SPI.Port.kMXP);
+//			imu = new AHRS(SerialPort.Port.kUSB1);
+//			imu.setPIDSourceType(PIDSourceType.kDisplacement);
+//
+//		} catch (Exception ex) {
+//			DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+//		}
+//		if (imu != null) {
+//			LiveWindow.addSensor("IMU", "Gyro", imu);
+//		}
+//		Timer.delay(3);
+//
+//		imu.reset();
 	}
 
 	/**
@@ -83,6 +84,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		updateStatus();
 	}
 
 	/**
@@ -119,6 +121,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		updateStatus();
 	}
 
 	@Override
@@ -130,6 +133,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		
+//		RobotMap.driveLeftFrontDirMotor.set(-1);
 	}
 
 	/**
@@ -138,6 +143,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		updateStatus();
 	}
 
 	/**
@@ -145,5 +151,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+	
+	public void updateStatus(){
+		SmartDashboard.putNumber("encoder", RobotMap.leftFrontDirEncoder.getAngle());
 	}
 }

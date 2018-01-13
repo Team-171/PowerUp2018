@@ -5,6 +5,7 @@ import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -34,6 +35,10 @@ public class DriveTrain extends Subsystem {
 			x = -y * Math.sin(angle) + x * Math.cos(angle);
 			y = temp;
 		}
+		
+		SmartDashboard.putNumber("x", x);
+		SmartDashboard.putNumber("y", y);
+		SmartDashboard.putNumber("rotation", rotation);
 
 		final double LENGTH = 1.0;
 		final double WIDTH = 1.0;

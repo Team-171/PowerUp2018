@@ -75,10 +75,10 @@ public class RobotMap {
 		rightFrontDirEncoder = new AbsoluteEncoder(2);
 		rightBackDirEncoder = new AbsoluteEncoder(3);
 		
-		leftFrontEncoder = new Encoder(0, 1);
-		leftBackEncoder = new Encoder(2, 3);
-		rightFrontEncoder = new Encoder(4, 5);
-		rightBackEncoder = new Encoder(6, 7);
+		leftFrontEncoder = new Encoder(4, 5);
+		leftBackEncoder = new Encoder(6, 7);
+		rightFrontEncoder = new Encoder(8, 9);
+		rightBackEncoder = new Encoder(10, 11);
 		
 		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder);
 		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder);

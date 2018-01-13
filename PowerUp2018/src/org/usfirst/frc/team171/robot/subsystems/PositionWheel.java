@@ -1,17 +1,19 @@
 package org.usfirst.frc.team171.robot.subsystems;
 
 import org.usfirst.frc.team171.RobotMotion.SwerveModule;
+import org.usfirst.frc.team171.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class PositionWheel extends PIDSubsystem {
 
-	private static final double Kp = .01;
+	private static final double Kp = .004;
 	private static final double Ki = 0.0;
-	private static final double Kd = 0.0;
+	private static final double Kd = 0.0001;
 	
 	private SwerveModule mModule;
 	
@@ -55,5 +57,6 @@ public class PositionWheel extends PIDSubsystem {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
     	mModule.directionMotor.set(output);
+//    	SmartDashboard.putNumber("output", output);
     }
 }

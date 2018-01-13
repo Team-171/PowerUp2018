@@ -48,19 +48,25 @@ public class SwerveModule {
 	}
 	
 	public void setAngle(double targetAngle){
-//		if(Math.abs(targetAngle - directionEncoder.getAngle())>90 && Math.abs(360 - targetAngle + directionEncoder.getAngle())>90)
-//		{
-//		    reversed = !reversed;
-//			if(targetAngle>180)
-//			{
-//				targetAngle += 180;
-//			}
-//			else
-//			{
-//				targetAngle -= 180; 
-//			}
-//			driveMotor.set(-speed);
-//		}
+		targetAngle = (360 - targetAngle);
+		
+		if(Math.abs(targetAngle - directionEncoder.getAngle())>90 && Math.abs(360 - targetAngle + directionEncoder.getAngle())>90)
+		{
+		    reversed = true;
+			if(targetAngle>180)
+			{
+				targetAngle += 180;
+			}
+			else
+			{
+				targetAngle -= 180; 
+			}
+			driveMotor.set(-speed);
+		}
+		else
+		{
+			reversed = false;
+		}
 		angle = targetAngle;
 		PIDController.setDesiredAngle(targetAngle);
 	}

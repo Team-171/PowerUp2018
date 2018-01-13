@@ -13,6 +13,7 @@ public class AbsoluteEncoder {
 	}
 	
 	public double getAngle(){
-		return 0;
+		return (input.getPeriod() * 250) * 360;
+//		return input.pidGet();
 	}
 }
