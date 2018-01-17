@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class PositionWheel extends PIDSubsystem {
 
-	private static final double Kp = .004;
+	private static final double Kp = .001;
 	private static final double Ki = 0.0;
-	private static final double Kd = 0.0001;
+	private static final double Kd = 0.000;
 	
 	private SwerveModule mModule;
 	
@@ -24,7 +24,7 @@ public class PositionWheel extends PIDSubsystem {
     	setSetpoint(0);
 		getPIDController().setContinuous();
 		getPIDController().setInputRange(0, 360);
-		getPIDController().setPercentTolerance(1);
+		getPIDController().setPercentTolerance(0.1);
 		getPIDController().setOutputRange(-1, 1);
     	enable();
         // Use these to get going:

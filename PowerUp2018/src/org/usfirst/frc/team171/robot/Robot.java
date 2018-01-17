@@ -9,6 +9,7 @@ package org.usfirst.frc.team171.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	public static AHRS imu;
 	public static Gyro gyro;
+	public static Preferences prefs;
 	
 	
 	Command m_autonomousCommand;
@@ -54,6 +56,9 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		prefs = Preferences.getInstance();
+		
+		
 		
 //		try {
 ////			imu = new AHRS(SPI.Port.kMXP);
@@ -69,6 +74,8 @@ public class Robot extends TimedRobot {
 //		Timer.delay(3);
 //
 //		imu.reset();
+		
+		
 	}
 
 	/**
@@ -78,7 +85,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		prefs.putDouble("P", RobotMap.leftFrontSwerve.PIDController.getPIDController().getP());
+		prefs.putDouble("I", RobotMap.leftFrontSwerve.PIDController.getPIDController().getI());
+		prefs.putDouble("D", RobotMap.leftFrontSwerve.PIDController.getPIDController().getD());
 	}
 
 	@Override
@@ -134,6 +143,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
+		RobotMap.leftFrontSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
 //		RobotMap.driveLeftFrontDirMotor.set(-1);
 	}
 

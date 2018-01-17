@@ -53,6 +53,7 @@ public class DriveTrain extends Subsystem {
 		RobotMap.leftFrontSwerve.set((Math.atan2(b, d) * 180/Math.PI) + 180, Math.hypot(b, d));
 		RobotMap.leftBackSwerve.set((Math.atan2(a, d) * 180/Math.PI) + 180, Math.hypot(a, d));
 		RobotMap.rightBackSwerve.set((Math.atan2(a, c) * 180/Math.PI) + 180, Math.hypot(a, c));
+		
 	}
 
 	public void driveSwervePolar(double angle, double magnitude, double rotation) {
