@@ -1,4 +1,4 @@
-package org.usfirst.frc.team171.robot.subsystems;
+package org.usfirst.frc.team171.RobotMotion;
 
 import edu.wpi.first.wpilibj.Counter;
 
@@ -13,7 +13,7 @@ public class AbsoluteEncoder {
 	}
 	
 	public double getAngle(){
-		return (input.getPeriod() * 250) * 360;
+		return (360 - (input.getPeriod() * 250) * 360);
 //		return input.pidGet();
 	}
 }

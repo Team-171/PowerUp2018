@@ -11,16 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Gyro extends Subsystem {
 
-
-	private static final double Kp = .01;
-	private static final double Ki = 0.0;
-	private static final double Kd = 0.0;
-
-	public boolean gyroState = true;
-
 	public double targetAngle;
 	private double targetError;
-	public double gyroKp = .05;
+	public double gyroKp = .015;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -62,18 +55,18 @@ public class Gyro extends Subsystem {
 
 	public double getTargetError() {
 		targetError = getGyroAngle() - targetAngle;
-//		if (Math.abs(targetError) < 180)
-			return -targetError;
-//		else if (targetError >= 180)
-//			return 360 - targetError;
-//		else
-//			return 360 + targetError;
+		if (Math.abs(targetError) < 180)
+			return targetError;
+		else if (targetError >= 180)
+			return 360 - targetError;
+		else
+			return -360 - targetError;
 	}
 
 	public double getTargetYawComp() {
-		if ((Robot.gyro.getTargetError() * gyroKp) >= .1) {
+		if ((getTargetError() * gyroKp) >= .1) {
 			return .1;
-		} else if (Robot.gyro.getTargetError() <= -.1) {
+		} else if (getTargetError() <= -.1) {
 			return -.1;
 		} else {
 			return getTargetError() * gyroKp;

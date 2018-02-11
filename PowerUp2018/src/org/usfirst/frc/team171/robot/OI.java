@@ -7,7 +7,11 @@
 
 package org.usfirst.frc.team171.robot;
 
+import org.usfirst.frc.team171.robot.commands.NoDriveMode;
+import org.usfirst.frc.team171.robot.commands.SwerveCalibrationMode;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,8 +20,16 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
 
 	public Joystick gamepad;
+	public static JoystickButton noDriveMode;
+	public static JoystickButton swerveCalibrationMode;
 	
 	public OI(){
 		gamepad = new Joystick(0);
+
+		noDriveMode = new JoystickButton(gamepad, 5);
+		noDriveMode.whenPressed(new NoDriveMode());
+
+		swerveCalibrationMode = new JoystickButton(gamepad, 6);
+		noDriveMode.whenPressed(new SwerveCalibrationMode());
 	}
 }

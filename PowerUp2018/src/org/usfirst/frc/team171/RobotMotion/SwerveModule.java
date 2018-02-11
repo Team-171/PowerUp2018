@@ -1,7 +1,6 @@
 package org.usfirst.frc.team171.RobotMotion;
 
 import org.usfirst.frc.team171.robot.Robot;
-import org.usfirst.frc.team171.robot.subsystems.AbsoluteEncoder;
 import org.usfirst.frc.team171.robot.subsystems.PositionWheel;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -17,6 +16,10 @@ public class SwerveModule {
 	public double speed;
 	public double angle;
 	public PositionWheel PIDController;
+	public double fieldX = 0.0;
+	public double fieldY = 0.0;
+	public double forwardAngle = 0;
+	
 	private boolean reversed = false;
 	private int rate = 200; // Hz
 	private double lastAngle;
@@ -27,10 +30,8 @@ public class SwerveModule {
 	private double wheelToEncoderRatio = 3.2;
 	private double moduleRotationRatio = 2.3;
 	private double countsPerRev = 400;
-	public double fieldX = 0.0;
-	public double fieldY = 0.0;
 
-	public SwerveModule(PWMTalonSRX drive, Encoder driveEnc, PWMTalonSRX dir, AbsoluteEncoder dirEnc) {
+	public SwerveModule(PWMTalonSRX drive, Encoder driveEnc, PWMTalonSRX dir, AbsoluteEncoder dirEnc, double forwardAng) {
 		this.driveMotor = drive;
 		this.driveEncoder = driveEnc;
 		this.directionMotor = dir;
@@ -51,27 +52,39 @@ public class SwerveModule {
 		while (true) {
 			calculatedEncoderCount += driveEncoder.get() - lastEncoderReading;
 			
-			if(directionEncoder.getAngle() != lastAngle)
+			double currentAngle = directionEncoder.getAngle() + forwardAngle;
+			
+			if(currentAngle > 360)
+			{
+				currentAngle -= 360;
+			}
+			
+			if(currentAngle<0)
+			{
+				currentAngle += 360;
+			}
+			
+			if(currentAngle != lastAngle)
 			{
 				double angleDifference;
 				
-				if(directionEncoder.getAngle()<10 && lastAngle > 350)
+				if(currentAngle<10 && lastAngle > 350)
 				{
-					angleDifference = (360 - lastAngle) + directionEncoder.getAngle();
+					angleDifference = (360 - lastAngle) + currentAngle;
 				}
-				else if(lastAngle<10 && directionEncoder.getAngle() > 350)
+				else if(lastAngle<10 && currentAngle > 350)
 				{
-					angleDifference = (directionEncoder.getAngle() - 360) - lastAngle;
+					angleDifference = (currentAngle - 360) - lastAngle;
 				}
 				else
 				{
-					angleDifference = directionEncoder.getAngle() - lastAngle;
+					angleDifference = currentAngle  - lastAngle;
 				}
 				
 				calculatedEncoderCount += (angleDifference / 360) * moduleRotationRatio * countsPerRev;
 			}
 			
-			double fieldAngle = directionEncoder.getAngle() + Robot.gyro.getGyroAngle();
+			double fieldAngle = currentAngle + Robot.gyro.getGyroAngle();
 			
 			if(fieldAngle < 0)
 			{
@@ -86,7 +99,7 @@ public class SwerveModule {
 			fieldY += Math.sin(fieldAngle) * (calculatedEncoderCount - lastCalculatedEncoderCount);
 			
 
-			lastAngle = directionEncoder.getAngle();
+			lastAngle = currentAngle;
 			lastEncoderReading = driveEncoder.get();
 			lastCalculatedEncoderCount = calculatedEncoderCount;
 
@@ -96,11 +109,19 @@ public class SwerveModule {
 			}
 		}
 	}
+	
+	public void setReversed(boolean m_reversed){
+		this.reversed = m_reversed;
+	}
 
-	public void set(double m_angle, double m_speed) {
-		setAngle(m_angle);
+	public void set(double m_angle, double m_speed, boolean angleOptimization) {
+		setAngle(m_angle, angleOptimization);
 		setSpeed(m_speed);
 		SmartDashboard.putData("SwervePID", PIDController.getPIDController());
+	}
+	
+	public void setForwardAngle(double m_Angle){
+		this.forwardAngle = m_Angle;
 	}
 
 	public void setSpeed(double targetSpeed) {
@@ -120,22 +141,42 @@ public class SwerveModule {
 		driveMotor.set(targetSpeed);
 	}
 
-	public void setAngle(double targetAngle) {
-		targetAngle = (360 - targetAngle);
-
-		if (Math.abs(targetAngle - directionEncoder.getAngle()) > 90
-				&& Math.abs(360 - targetAngle + directionEncoder.getAngle()) > 90) {
-			reversed = true;
-			if (targetAngle < 180) {
-				targetAngle += 180;
-			} else {
-				targetAngle -= 180;
-			}
-		} else {
-			reversed = false;
+	public void setAngle(double targetAngle, boolean angleOptimization) {
+		targetAngle += forwardAngle;
+		
+		if(targetAngle > 360)
+		{
+			targetAngle -= 360;
 		}
+		
+		if(targetAngle<0)
+		{
+			targetAngle += 360;
+		}
+//		SmartDashboard.putNumber("Ang", Math.abs(targetAngle - directionEncoder.getAngle()));
+
+		if(angleOptimization)
+		{
+			if (Math.abs(targetAngle - directionEncoder.getAngle()) > 90
+					&& Math.abs(360 - targetAngle + directionEncoder.getAngle()) > 90) {
+				reversed = true;
+				if (targetAngle < 180) {
+					targetAngle += 180;
+				} else {
+					targetAngle -= 180;
+				}
+			} else {
+				reversed = false;
+			}
+		}
+		
 		angle = targetAngle;
 		PIDController.setDesiredAngle(targetAngle);
 
+	}
+	
+	public void setFieldXY(double m_fieldX, double m_fieldY){
+		this.fieldX = m_fieldX;
+		this.fieldY = m_fieldY;
 	}
 }

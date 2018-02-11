@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class PositionWheel extends PIDSubsystem {
 
-	private static final double Kp = .001;
+	private static final double Kp = .007;
 	private static final double Ki = 0.0;
 	private static final double Kd = 0.000;
 	
 	private SwerveModule mModule;
+	public double highestOutput = 0;
 	
     // Initialize your subsystem here
     public PositionWheel(SwerveModule mod) {
@@ -24,9 +25,10 @@ public class PositionWheel extends PIDSubsystem {
     	setSetpoint(0);
 		getPIDController().setContinuous();
 		getPIDController().setInputRange(0, 360);
-		getPIDController().setPercentTolerance(0.1);
+		getPIDController().setPercentTolerance(1);
 		getPIDController().setOutputRange(-1, 1);
     	enable();
+    	
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
         //                  to
@@ -49,6 +51,10 @@ public class PositionWheel extends PIDSubsystem {
         return mModule.directionEncoder.getAngle();
     }
     
+    public double getError(){
+    	return getPIDController().getError();
+    }
+    
     public void setDesiredAngle(double angle){
     	setSetpoint(angle);
     }
@@ -56,6 +62,25 @@ public class PositionWheel extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
+    	double maxOutput = 1 - Math.abs(mModule.driveMotor.get());
+    	
+    	
+//    	if(Math.abs(output)>highestOutput)
+//    	{
+//    		SmartDashboard.putNumber("max", Math.abs(output));
+//    		highestOutput = Math.abs(output);
+//    	}
+    	
+    	if(output > maxOutput)
+    	{
+    		output = maxOutput;
+    	}
+    	
+    	if(output < -maxOutput)
+    	{
+    		output = -maxOutput;
+    	}
+    	
     	mModule.directionMotor.set(output);
 //    	SmartDashboard.putNumber("output", output);
     }
