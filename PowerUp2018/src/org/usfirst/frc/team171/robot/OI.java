@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team171.robot;
 
+import org.usfirst.frc.team171.Autonomous.SubWaypoint;
 import org.usfirst.frc.team171.robot.commands.NoDriveMode;
+import org.usfirst.frc.team171.robot.commands.SetFieldOriented;
+import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
 import org.usfirst.frc.team171.robot.commands.SwerveCalibrationMode;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,14 +25,24 @@ public class OI {
 	public Joystick gamepad;
 	public static JoystickButton noDriveMode;
 	public static JoystickButton swerveCalibrationMode;
+	public static JoystickButton fieldOriented;
+	public static JoystickButton testPosition;
 	
 	public OI(){
 		gamepad = new Joystick(0);
 
-		noDriveMode = new JoystickButton(gamepad, 5);
-		noDriveMode.whenPressed(new NoDriveMode());
+		fieldOriented = new JoystickButton(gamepad, 5);
+		fieldOriented.whenPressed(new SetFieldOriented(false));
+		fieldOriented.whenReleased(new SetFieldOriented(true));
+		
+		testPosition = new JoystickButton(gamepad, 6);
+		testPosition.whenPressed(new SetRobotPosition(0, 0));
+		testPosition.whenReleased(new SubWaypoint(60, 60, 90));
+		
+//		noDriveMode = new JoystickButton(gamepad, 5);
+//		noDriveMode.whenPressed(new NoDriveMode());
 
-		swerveCalibrationMode = new JoystickButton(gamepad, 6);
-		noDriveMode.whenPressed(new SwerveCalibrationMode());
+//		swerveCalibrationMode = new JoystickButton(gamepad, 6);
+//		noDriveMode.whenPressed(new SwerveCalibrationMode());
 	}
 }

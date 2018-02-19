@@ -26,7 +26,7 @@ public class PositionWheel extends PIDSubsystem {
 		getPIDController().setContinuous();
 		getPIDController().setInputRange(0, 360);
 		getPIDController().setPercentTolerance(1);
-		getPIDController().setOutputRange(-1, 1);
+		getPIDController().setOutputRange(-.75, .75);
     	enable();
     	
         // Use these to get going:

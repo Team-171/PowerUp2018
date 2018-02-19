@@ -24,12 +24,13 @@ public class SwerveModule {
 	private int rate = 200; // Hz
 	private double lastAngle;
 	private double lastEncoderReading;
-	private double wheelSize = 4.0;// wheel size in inches
+	private double wheelSize = 5.3770491803278688524590163934426;//4.0;// wheel size in inches
 	private double calculatedEncoderCount = 0.0;
-	private double lastCalculatedEncoderCount;
+	private double lastCalculatedEncoderCount = 0.0;
 	private double wheelToEncoderRatio = 3.2;
 	private double moduleRotationRatio = 2.3;
 	private double countsPerRev = 400;
+	public double testAng = 0;
 
 	public SwerveModule(PWMTalonSRX drive, Encoder driveEnc, PWMTalonSRX dir, AbsoluteEncoder dirEnc, double forwardAng) {
 		this.driveMotor = drive;
@@ -37,6 +38,7 @@ public class SwerveModule {
 		this.directionMotor = dir;
 		this.directionEncoder = dirEnc;
 		this.PIDController = new PositionWheel(this);
+		this.forwardAngle = forwardAng;
 
 		lastAngle = directionEncoder.getAngle();
 		lastEncoderReading = lastCalculatedEncoderCount = driveEncoder.get();
@@ -45,14 +47,14 @@ public class SwerveModule {
 		positionThread.setDaemon(true);
 		positionThread.setName("Custom Super Fast Loop");
 		positionThread.start();
-		SmartDashboard.putData("SwervePID", PIDController.getPIDController());
+//		SmartDashboard.putData("SwervePID", PIDController.getPIDController());
 	}
 
 	private void calculatePosition() {
 		while (true) {
 			calculatedEncoderCount += driveEncoder.get() - lastEncoderReading;
 			
-			double currentAngle = directionEncoder.getAngle() + forwardAngle;
+			double currentAngle = directionEncoder.getAngle() - forwardAngle;
 			
 			if(currentAngle > 360)
 			{
@@ -64,7 +66,7 @@ public class SwerveModule {
 				currentAngle += 360;
 			}
 			
-			if(currentAngle != lastAngle)
+			if(Math.abs(currentAngle - lastAngle)>1)
 			{
 				double angleDifference;
 				
@@ -94,9 +96,9 @@ public class SwerveModule {
 			{
 				fieldAngle -= 360;
 			}
-			
-			fieldX += Math.cos(fieldAngle) * (calculatedEncoderCount - lastCalculatedEncoderCount);
-			fieldY += Math.sin(fieldAngle) * (calculatedEncoderCount - lastCalculatedEncoderCount);
+			testAng = Robot.gyro.toUnitCircleAngle(fieldAngle);
+			fieldX += Math.cos(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * (((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
+			fieldY += Math.sin(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * (((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev / wheelToEncoderRatio) * (Math.PI * wheelSize));
 			
 
 			lastAngle = currentAngle;

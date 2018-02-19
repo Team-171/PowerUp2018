@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team171.Autonomous.StartFromLeft;
+import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
 import org.usfirst.frc.team171.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team171.robot.subsystems.Gyro;
 
@@ -50,17 +51,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		RobotMap.init();
-		oi = new OI();
-		driveTrain = new DriveTrain();
-		gyro = new Gyro();
-		m_chooser.addDefault("Default Auto", new StartFromLeft());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
-		prefs = Preferences.getInstance();
-		
-		
-		
 		try {
 			imu = new AHRS(SPI.Port.kMXP);
 //			imu = new AHRS(SerialPort.Port.kUSB1);
@@ -75,6 +65,18 @@ public class Robot extends TimedRobot {
 		Timer.delay(3);
 
 		imu.reset();
+		gyro = new Gyro();
+		RobotMap.init();
+		oi = new OI();
+		driveTrain = new DriveTrain();
+		m_chooser.addDefault("Default Auto", new StartFromLeft());
+		// chooser.addObject("My Auto", new MyAutoCommand());
+		SmartDashboard.putData("Auto mode", m_chooser);
+		prefs = Preferences.getInstance();
+		
+		
+		
+		
 		
 		
 	}
@@ -144,10 +146,10 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
-		RobotMap.leftFrontSwerve.PIDController.setPIDF(0.009, 0, 0, 0);
+		RobotMap.leftFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
 		RobotMap.leftBackSwerve.PIDController.setPIDF(0.009, 0, 0, 0);
-		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.009, 0, 0, 0);
-		RobotMap.rightBackSwerve.PIDController.setPIDF(0.011, 0, 0, 0);
+		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
+		RobotMap.rightBackSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
 		
 //		RobotMap.leftFrontSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
 //		RobotMap.leftBackSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
@@ -161,6 +163,8 @@ public class Robot extends TimedRobot {
 //		RobotMap.rightBackSwerve.PIDController.disable();
 		gyro.resetGyro();
 		gyro.setTargetAngle(gyro.getGyroAngle());
+		
+//		new SetRobotPosition(0, 20).start();
 	}
 
 	/**
@@ -186,15 +190,17 @@ public class Robot extends TimedRobot {
 	
 	public void updateStatus(){
 //		SmartDashboard.putNumber("encoder", RobotMap.leftFrontDirEncoder.getAngle());
-		
+		gyro.updateStatus();
+		driveTrain.updateStatus();
 
 		SmartDashboard.putNumber("Front Left Angle", RobotMap.leftFrontSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Back Left Angle", RobotMap.leftBackSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Front Right Angle", RobotMap.rightFrontSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Back Right Angle", RobotMap.rightBackSwerve.directionEncoder.getAngle());
-		SmartDashboard.putNumber("Gyro Comp", gyro.getTargetYawComp());
-		SmartDashboard.putNumber("Gyro Target Angle", gyro.GetTargetAngle());
-		SmartDashboard.putNumber("Gyro Angle", gyro.getGyroAngle());
 		SmartDashboard.putBoolean("Rotating", driveTrain.rotating);
+		
+		SmartDashboard.putNumber("Left Front Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());
+		
+		SmartDashboard.putNumber("Angle Number", gyro.getAngleError(270));
 	}
 }
