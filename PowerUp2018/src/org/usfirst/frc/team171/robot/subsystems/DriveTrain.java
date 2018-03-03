@@ -1,8 +1,8 @@
 package org.usfirst.frc.team171.robot.subsystems;
 
-import org.usfirst.frc.team171.RobotMotion.RunFromJoystick;
 import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.RobotMap;
+import org.usfirst.frc.team171.robot.triggers.RunFromJoystick;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -134,26 +134,26 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void updateStatus(){
-		SmartDashboard.putNumber("Front Left Position X", RobotMap.leftFrontSwerve.fieldX);
-		SmartDashboard.putNumber("Front Left Position Y", RobotMap.leftFrontSwerve.fieldY);
-		
-		SmartDashboard.putNumber("Back Left Position X", RobotMap.leftBackSwerve.fieldX);
-		SmartDashboard.putNumber("Back Left Position Y", RobotMap.leftBackSwerve.fieldY);
-		
-		SmartDashboard.putNumber("Front Right Position X", RobotMap.rightFrontSwerve.fieldX);
-		SmartDashboard.putNumber("Front Right Position Y", RobotMap.rightFrontSwerve.fieldY);
-		
-		SmartDashboard.putNumber("Back Right Position X", RobotMap.rightBackSwerve.fieldX);
-		SmartDashboard.putNumber("Back Right Position Y", RobotMap.rightBackSwerve.fieldY);
+//		SmartDashboard.putNumber("Front Left Position X", RobotMap.leftFrontSwerve.fieldX);
+//		SmartDashboard.putNumber("Front Left Position Y", RobotMap.leftFrontSwerve.fieldY);
+//		
+//		SmartDashboard.putNumber("Back Left Position X", RobotMap.leftBackSwerve.fieldX);
+//		SmartDashboard.putNumber("Back Left Position Y", RobotMap.leftBackSwerve.fieldY);
+//		
+//		SmartDashboard.putNumber("Front Right Position X", RobotMap.rightFrontSwerve.fieldX);
+//		SmartDashboard.putNumber("Front Right Position Y", RobotMap.rightFrontSwerve.fieldY);
+//		
+//		SmartDashboard.putNumber("Back Right Position X", RobotMap.rightBackSwerve.fieldX);
+//		SmartDashboard.putNumber("Back Right Position Y", RobotMap.rightBackSwerve.fieldY);
 		
 		SmartDashboard.putNumber("Robot Position X", robotPosition()[0]);
 		SmartDashboard.putNumber("Robot Position Y", robotPosition()[1]);
 		
-		SmartDashboard.putNumber("Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());
+//		SmartDashboard.putNumber("Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());
 		
-		SmartDashboard.putNumber("Front Left Test Angle", RobotMap.leftFrontSwerve.testAng);
-		SmartDashboard.putNumber("Back Left Test Angle", RobotMap.leftBackSwerve.testAng);
-		SmartDashboard.putNumber("Front Right Test Angle", RobotMap.rightFrontSwerve.testAng);
-		SmartDashboard.putNumber("Back Right Test Angle", RobotMap.rightBackSwerve.testAng);
+//		SmartDashboard.putNumber("Front Left Test Angle", RobotMap.leftFrontSwerve.testAng);
+//		SmartDashboard.putNumber("Back Left Test Angle", RobotMap.leftBackSwerve.testAng);
+//		SmartDashboard.putNumber("Front Right Test Angle", RobotMap.rightFrontSwerve.testAng);
+//		SmartDashboard.putNumber("Back Right Test Angle", RobotMap.rightBackSwerve.testAng);
 	}
 }

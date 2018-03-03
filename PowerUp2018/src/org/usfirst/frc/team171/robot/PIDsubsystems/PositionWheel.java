@@ -1,6 +1,6 @@
-package org.usfirst.frc.team171.robot.subsystems;
+package org.usfirst.frc.team171.robot.PIDsubsystems;
 
-import org.usfirst.frc.team171.RobotMotion.SwerveModule;
+import org.usfirst.frc.team171.RobotParts.SwerveModule;
 import org.usfirst.frc.team171.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -62,24 +62,24 @@ public class PositionWheel extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
-    	double maxOutput = 1 - Math.abs(mModule.driveMotor.get());
-    	
-    	
-//    	if(Math.abs(output)>highestOutput)
+//    	double maxOutput = 1 - Math.abs(mModule.driveMotor.get());
+//    	
+//    	
+////    	if(Math.abs(output)>highestOutput)
+////    	{
+////    		SmartDashboard.putNumber("max", Math.abs(output));
+////    		highestOutput = Math.abs(output);
+////    	}
+//    	
+//    	if(output > maxOutput)
 //    	{
-//    		SmartDashboard.putNumber("max", Math.abs(output));
-//    		highestOutput = Math.abs(output);
+//    		output = maxOutput;
 //    	}
-    	
-    	if(output > maxOutput)
-    	{
-    		output = maxOutput;
-    	}
-    	
-    	if(output < -maxOutput)
-    	{
-    		output = -maxOutput;
-    	}
+//    	
+//    	if(output < -maxOutput)
+//    	{
+//    		output = -maxOutput;
+//    	}
     	
     	mModule.directionMotor.set(output);
 //    	SmartDashboard.putNumber("output", output);

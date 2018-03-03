@@ -9,6 +9,7 @@ package org.usfirst.frc.team171.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -73,12 +74,11 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		prefs = Preferences.getInstance();
-		
-		
-		
-		
-		
-		
+				
+        RobotMap.leftFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
+		RobotMap.leftBackSwerve.PIDController.setPIDF(0.009, 0, 0, 0);
+		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
+		RobotMap.rightBackSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
 	}
 
 	/**
@@ -146,10 +146,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
-		RobotMap.leftFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
-		RobotMap.leftBackSwerve.PIDController.setPIDF(0.009, 0, 0, 0);
-		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
-		RobotMap.rightBackSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
+		joystickRunning = true;
 		
 //		RobotMap.leftFrontSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
 //		RobotMap.leftBackSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
@@ -197,10 +194,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Back Left Angle", RobotMap.leftBackSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Front Right Angle", RobotMap.rightFrontSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Back Right Angle", RobotMap.rightBackSwerve.directionEncoder.getAngle());
-		SmartDashboard.putBoolean("Rotating", driveTrain.rotating);
-		
-		SmartDashboard.putNumber("Left Front Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());
-		
-		SmartDashboard.putNumber("Angle Number", gyro.getAngleError(270));
+//		SmartDashboard.putBoolean("Rotating", driveTrain.rotating);
+//		
+//		SmartDashboard.putNumber("Left Front Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());
+//		
+//		SmartDashboard.putNumber("Angle Number", gyro.getAngleError(270));
 	}
 }

@@ -1,7 +1,7 @@
-package org.usfirst.frc.team171.RobotMotion;
+package org.usfirst.frc.team171.RobotParts;
 
 import org.usfirst.frc.team171.robot.Robot;
-import org.usfirst.frc.team171.robot.subsystems.PositionWheel;
+import org.usfirst.frc.team171.robot.PIDsubsystems.PositionWheel;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
@@ -96,7 +96,7 @@ public class SwerveModule {
 			{
 				fieldAngle -= 360;
 			}
-			testAng = Robot.gyro.toUnitCircleAngle(fieldAngle);
+			
 			fieldX += Math.cos(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * (((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
 			fieldY += Math.sin(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * (((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev / wheelToEncoderRatio) * (Math.PI * wheelSize));
 			
@@ -119,7 +119,7 @@ public class SwerveModule {
 	public void set(double m_angle, double m_speed, boolean angleOptimization) {
 		setAngle(m_angle, angleOptimization);
 		setSpeed(m_speed);
-		SmartDashboard.putData("SwervePID", PIDController.getPIDController());
+//		SmartDashboard.putData("SwervePID", PIDController.getPIDController());
 	}
 	
 	public void setForwardAngle(double m_Angle){
@@ -155,7 +155,6 @@ public class SwerveModule {
 		{
 			targetAngle += 360;
 		}
-//		SmartDashboard.putNumber("Ang", Math.abs(targetAngle - directionEncoder.getAngle()));
 
 		if(angleOptimization)
 		{

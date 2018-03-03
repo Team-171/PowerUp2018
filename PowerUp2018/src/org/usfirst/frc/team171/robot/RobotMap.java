@@ -7,8 +7,8 @@
 
 package org.usfirst.frc.team171.robot;
 
-import org.usfirst.frc.team171.RobotMotion.AbsoluteEncoder;
-import org.usfirst.frc.team171.RobotMotion.SwerveModule;
+import org.usfirst.frc.team171.RobotParts.AbsoluteEncoder;
+import org.usfirst.frc.team171.RobotParts.SwerveModule;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -86,11 +86,11 @@ public class RobotMap {
 		
 		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 101);
 		
-		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 173);
+		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 237);
 		
-		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 290);
+		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 283);
 
-		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 60);
+		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 62);
 		
 		
 	}

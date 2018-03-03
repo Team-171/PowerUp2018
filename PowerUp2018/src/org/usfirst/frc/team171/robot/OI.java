@@ -8,6 +8,7 @@
 package org.usfirst.frc.team171.robot;
 
 import org.usfirst.frc.team171.Autonomous.SubWaypoint;
+import org.usfirst.frc.team171.Autonomous.WayPoint;
 import org.usfirst.frc.team171.robot.commands.NoDriveMode;
 import org.usfirst.frc.team171.robot.commands.SetFieldOriented;
 import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
@@ -37,7 +38,7 @@ public class OI {
 		
 		testPosition = new JoystickButton(gamepad, 6);
 		testPosition.whenPressed(new SetRobotPosition(0, 0));
-		testPosition.whenReleased(new SubWaypoint(60, 60, 90));
+		testPosition.whenReleased(new WayPoint(60, 60, 90, .25));
 		
 //		noDriveMode = new JoystickButton(gamepad, 5);
 //		noDriveMode.whenPressed(new NoDriveMode());

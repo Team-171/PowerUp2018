@@ -1,4 +1,4 @@
-package org.usfirst.frc.team171.RobotMotion;
+package org.usfirst.frc.team171.robot.triggers;
 
 import org.usfirst.frc.team171.robot.Robot;
 

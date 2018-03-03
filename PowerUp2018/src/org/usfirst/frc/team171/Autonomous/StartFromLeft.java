@@ -1,5 +1,7 @@
 package org.usfirst.frc.team171.Autonomous;
 
+import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -8,6 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StartFromLeft extends CommandGroup {
 
     public StartFromLeft() {
+    	
+    	addParallel(new JoystickEnabled(false));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

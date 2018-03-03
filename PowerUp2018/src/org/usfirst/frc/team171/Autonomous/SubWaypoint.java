@@ -1,8 +1,11 @@
 package org.usfirst.frc.team171.Autonomous;
 
 import org.usfirst.frc.team171.robot.Robot;
+import org.usfirst.frc.team171.robot.PIDsubsystems.AutoMovementX;
+import org.usfirst.frc.team171.robot.PIDsubsystems.AutoMovementY;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,6 +17,7 @@ public class SubWaypoint extends Command {
 	private double targetX;
 	private double targetY;
 	private double targetAngle;
+	private double speed;
 	
 	private double xOutput = 0;
 	private double yOutput = 0;
@@ -24,30 +28,24 @@ public class SubWaypoint extends Command {
 	private double lastRemainingDistance;
 	private double initialAngle;
 	private double angleDifference;
-	private double maxOutput = .25;
+//	private double maxOutput = .25;
 
-    public SubWaypoint(double m_targetX, double m_targetY, double m_targetAngle) {
+    public SubWaypoint(double m_targetX, double m_targetY, double m_targetAngle, double m_speed) {
         this.targetX = m_targetX;
     	this.targetY = m_targetY;
     	this.targetAngle = m_targetAngle;
-    	
-    	
-    	
-    	
-    	
-    	
+    	this.speed = m_speed;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.joystickRunning = false;
     	Robot.gyro.gyroKp = 0.04;
     	PIDX = new AutoMovementX(this, this.targetX);
-    	PIDX.getPIDController().setOutputRange(-maxOutput, maxOutput);
+    	PIDX.getPIDController().setOutputRange(-speed, speed);
     	PIDY = new AutoMovementY(this, this.targetY);
-    	PIDY.getPIDController().setOutputRange(-maxOutput, maxOutput);
+    	PIDY.getPIDController().setOutputRange(-speed, speed);
     	
     	initialDistance = Math.hypot((Robot.driveTrain.robotPosition()[0]-targetX), (Robot.driveTrain.robotPosition()[1]-targetX));
     	remainingDistance = initialDistance;
@@ -65,7 +63,7 @@ public class SubWaypoint extends Command {
     	
     	if(remainingDistance<lastRemainingDistance)
     	{
-    		Robot.gyro.setTargetAngle(initialAngle + (angleDifference * (remainingDistance / initialDistance)));
+    		Robot.gyro.setTargetAngle(initialAngle + (angleDifference * (1 - (remainingDistance / initialDistance))));
     	}
     	
     	lastRemainingDistance = remainingDistance;
@@ -82,7 +80,6 @@ public class SubWaypoint extends Command {
     	PIDY.disable();
     	Robot.gyro.setTargetAngle(targetAngle);
     	Robot.driveTrain.stopSwerve();
-    	Robot.joystickRunning = true;
     	Robot.gyro.gyroKp = 0.007;
     	
     }
