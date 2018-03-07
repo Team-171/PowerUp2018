@@ -24,13 +24,17 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 
 	public Joystick gamepad;
+	public Joystick operator_gamepad;
 	public static JoystickButton noDriveMode;
 	public static JoystickButton swerveCalibrationMode;
 	public static JoystickButton fieldOriented;
 	public static JoystickButton testPosition;
+	public static JoystickButton elevatorDown;
+	public static JoystickButton elevatorUp;
 	
 	public OI(){
 		gamepad = new Joystick(0);
+		operator_gamepad = new Joystick(1);
 
 		fieldOriented = new JoystickButton(gamepad, 5);
 		fieldOriented.whenPressed(new SetFieldOriented(false));

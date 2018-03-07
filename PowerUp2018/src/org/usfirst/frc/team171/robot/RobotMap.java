@@ -9,6 +9,8 @@ package org.usfirst.frc.team171.robot;
 
 import org.usfirst.frc.team171.RobotParts.AbsoluteEncoder;
 import org.usfirst.frc.team171.RobotParts.SwerveModule;
+import org.usfirst.frc.team171.robot.subsystems.Elevator;
+import org.usfirst.frc.team171.robot.subsystems.Intake;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -41,6 +43,11 @@ public class RobotMap {
 	public static PWMTalonSRX driveRightFrontDirMotor;
 	public static PWMTalonSRX driveRightBackDirMotor;
 	
+	public static PWMTalonSRX liftMotor;
+	
+	public static PWMTalonSRX leftArmMotor;
+	public static PWMTalonSRX rightArmMotor;
+
 	public static AbsoluteEncoder leftFrontDirEncoder;
 	public static AbsoluteEncoder leftBackDirEncoder;
 	public static AbsoluteEncoder rightFrontDirEncoder;
@@ -50,11 +57,16 @@ public class RobotMap {
 	public static Encoder leftBackEncoder;
 	public static Encoder rightFrontEncoder;
 	public static Encoder rightBackEncoder;
+	public static Encoder elevatorEncoder;
 	
 	public static SwerveModule leftFrontSwerve;
 	public static SwerveModule leftBackSwerve;
 	public static SwerveModule rightFrontSwerve;
 	public static SwerveModule rightBackSwerve;
+	
+	public static Elevator elevator;
+	
+	public static Intake intake;
 	
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
@@ -73,6 +85,10 @@ public class RobotMap {
 		driveRightFrontDirMotor = new PWMTalonSRX(5);
 		driveRightBackDirMotor = new PWMTalonSRX(6);
 		
+		liftMotor = new PWMTalonSRX(8);
+		
+		leftArmMotor = new PWMTalonSRX(9);
+		rightArmMotor  =new PWMTalonSRX(10);
 		
 		leftFrontDirEncoder = new AbsoluteEncoder(0);
 		leftBackDirEncoder = new AbsoluteEncoder(3);
@@ -83,6 +99,7 @@ public class RobotMap {
 		leftBackEncoder = new Encoder(4, 5);
 		rightFrontEncoder = new Encoder(7, 8);
 		rightBackEncoder = new Encoder(11, 12);
+		elevatorEncoder = new Encoder(13, 14);
 		
 		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 101);
 		
@@ -92,6 +109,9 @@ public class RobotMap {
 
 		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 62);
 		
+		elevator = new Elevator(liftMotor, elevatorEncoder);
+		
+		intake = new Intake(leftArmMotor, rightArmMotor);
 		
 	}
 }
