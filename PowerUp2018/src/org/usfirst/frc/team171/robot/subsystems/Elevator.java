@@ -17,7 +17,7 @@ public class Elevator extends Subsystem {
 	private PWMTalonSRX m_liftMotor;
 	private Encoder m_liftEncoder;
 	private double moveSpeed = .25;
-	private PositionElevator elevatorPID;
+	public PositionElevator elevatorPID;
 	public boolean limitReached;
 	
 	public Elevator(PWMTalonSRX liftMotor, Encoder liftEncoder){

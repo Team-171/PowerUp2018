@@ -1,18 +1,19 @@
-package org.usfirst.frc.team171.Autonomous;
+package org.usfirst.frc.team171.Autonomous.Actions;
 
-import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
+import org.usfirst.frc.team171.Autonomous.WayPoint;
+import org.usfirst.frc.team171.RobotMotion.SetElevatorPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class StartFromMiddle extends CommandGroup {
+public class PlaceCubeRightScale extends CommandGroup {
 
-    public StartFromMiddle() {
-    	addParallel(new JoystickEnabled(false));
-    	
-    	
+    public PlaceCubeRightScale() {
+    	addSequential(new PlatformClearLeft(315));
+    	addParallel(new WayPoint(259, 280, 335, 0.5));
+    	addParallel(new SetElevatorPosition(10)); // TODO: Set actual position
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

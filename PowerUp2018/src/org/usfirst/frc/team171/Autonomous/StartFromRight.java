@@ -1,7 +1,13 @@
 package org.usfirst.frc.team171.Autonomous;
 
+import org.usfirst.frc.team171.Autonomous.Actions.PickUpCube;
+import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeLeftScale;
+import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeLeftSwitch;
+import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightScale;
+import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightSwitch;
 import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -11,21 +17,19 @@ public class StartFromRight extends CommandGroup {
 
     public StartFromRight() {
     	addParallel(new JoystickEnabled(false));
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+    	
+    	if (DriverStation.getInstance().getGameSpecificMessage().substring(0, 0) == "R") {
+    		addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.SIDE));
+    		addSequential(new PickUpCube(1));
+    	}
+    	
+    	switch (DriverStation.getInstance().getGameSpecificMessage().substring(1, 1)) {
+    	case "R":
+    		addSequential(new PlaceCubeRightScale());
+    		break;
+    	case "L":    		
+    		addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
+    		break;
+    	}
     }
 }

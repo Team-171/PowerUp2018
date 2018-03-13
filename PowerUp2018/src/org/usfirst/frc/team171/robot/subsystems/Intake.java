@@ -27,7 +27,7 @@ public class Intake extends Subsystem {
     
     public void runIntake(double leftValue, double rightValue) {
     	leftArm.set(leftValue * moveSpeed);
-    	rightArm.set(rightValue * moveSpeed);
+    	rightArm.set(-rightValue * moveSpeed);
     }
 }
 

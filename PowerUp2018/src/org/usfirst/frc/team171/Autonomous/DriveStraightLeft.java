@@ -1,18 +1,13 @@
 package org.usfirst.frc.team171.Autonomous;
 
-import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class StartFromMiddle extends CommandGroup {
+public class DriveStraightLeft extends CommandGroup {
 
-    public StartFromMiddle() {
-    	addParallel(new JoystickEnabled(false));
-    	
-    	
+    public DriveStraightLeft() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
