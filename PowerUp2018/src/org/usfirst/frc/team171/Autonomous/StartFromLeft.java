@@ -29,6 +29,8 @@ public class StartFromLeft extends CommandGroup {
     		break;
     	case "R":    		
     		addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
+    		addSequential(new PickUpCube(5));
+    		addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
     		break;
     	}
     }

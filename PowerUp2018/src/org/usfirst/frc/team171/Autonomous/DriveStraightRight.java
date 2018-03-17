@@ -14,20 +14,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class DriveStraightRight extends CommandGroup {
 
     public DriveStraightRight() {
-addParallel(new JoystickEnabled(false));
+    	addParallel(new JoystickEnabled(false));
     	
-    	if (DriverStation.getInstance().getGameSpecificMessage().substring(0, 0) == "R") {
-    		addSequential(new PlaceCubeLeftSwitch(PlaceCubeRightSwitch.Direction.SIDE));
-    		addSequential(new PickUpCube(6));
-    	}
-
-    	switch (DriverStation.getInstance().getGameSpecificMessage().substring(1, 1)) {
-    	case "L":
-    		addSequential(new PlaceCubeLeftScale());
-    		break;
-    	case "R":    		
-    		addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
-    		break;
-    	}
+    	
     }
 }
