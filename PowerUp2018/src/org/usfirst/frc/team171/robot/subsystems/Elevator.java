@@ -44,12 +44,12 @@ public class Elevator extends Subsystem {
     
     /**
      * 
-     * @param moveUp true for up false for down
+     * @param speed elevator speed between -1 and 1
      */
     public void moveElevator(double speed){
     	//TODO: check limit switches
     	
-        m_liftMotor.set(speed * moveSpeed);
+        m_liftMotor.set(speed);
     }
     
     public void moveElevatorManual(double speed) {

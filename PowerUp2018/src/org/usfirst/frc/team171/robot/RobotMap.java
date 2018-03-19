@@ -12,8 +12,6 @@ import org.usfirst.frc.team171.RobotParts.SwerveModule;
 import org.usfirst.frc.team171.robot.subsystems.Elevator;
 import org.usfirst.frc.team171.robot.subsystems.Intake;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 
