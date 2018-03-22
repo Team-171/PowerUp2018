@@ -14,8 +14,6 @@ public class SetIntakeSpeed extends InstantCommand {
     public SetIntakeSpeed(double speed) {
         super();
         this.m_speed = speed;
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     }
 
     // Called once when the command executes

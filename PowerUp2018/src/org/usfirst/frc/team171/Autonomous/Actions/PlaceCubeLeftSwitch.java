@@ -14,16 +14,25 @@ public class PlaceCubeLeftSwitch extends CommandGroup {
 		FRONT, SIDE, BACK
 	}
 	
-    public PlaceCubeLeftSwitch(Direction direction) {
+	public PlaceCubeLeftSwitch(Direction direction) {
+		this(direction, false);
+	}
+	
+    public PlaceCubeLeftSwitch(Direction direction, boolean overrideClear) {
     	addParallel(new SetElevatorPosition(10));
     	switch (direction) {
     	case FRONT:
     		
     		break;
+    		
     	case SIDE:
     		addSequential(new WayPoint(65, 167.5, 90, 0.5));
     		break;
+    		
     	case BACK:
+    		if (!overrideClear) {
+        		addSequential(new PlatformClearLeft(270));
+    		}
     		addSequential(new WayPoint(106, 167.5, 90, 0.5));
     		break;
     	}

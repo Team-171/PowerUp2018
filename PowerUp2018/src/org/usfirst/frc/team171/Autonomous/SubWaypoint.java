@@ -47,7 +47,7 @@ public class SubWaypoint extends Command {
     	PIDY = new AutoMovementY(this, this.targetY);
     	PIDY.getPIDController().setOutputRange(-speed, speed);
     	
-    	initialDistance = Math.hypot((Robot.driveTrain.robotPosition()[0]-targetX), (Robot.driveTrain.robotPosition()[1]-targetX));
+    	initialDistance = Math.hypot((Robot.driveTrain.robotPosition()[0]-targetX), (Robot.driveTrain.robotPosition()[1]-targetY));
     	remainingDistance = initialDistance;
     	lastRemainingDistance = initialDistance;
     	initialAngle = Robot.gyro.getGyroAngle();
