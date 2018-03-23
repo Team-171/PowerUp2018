@@ -12,18 +12,26 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team171.Autonomous.DoNothing;
+import org.usfirst.frc.team171.Autonomous.DriveStraightLeft;
+import org.usfirst.frc.team171.Autonomous.DriveStraightRight;
 import org.usfirst.frc.team171.Autonomous.StartFromLeft;
+import org.usfirst.frc.team171.Autonomous.StartFromMiddle;
+import org.usfirst.frc.team171.Autonomous.StartFromRight;
 import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
 import org.usfirst.frc.team171.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team171.robot.subsystems.Gyro;
+import org.usfirst.frc.team171.robot.subsystems.JeVois;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -44,7 +52,7 @@ public class Robot extends TimedRobot {
 	public static boolean joystickRunning = true;
 	
 	
-	Command m_autonomousCommand;
+	CommandGroup m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	/**
@@ -72,6 +80,12 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		driveTrain = new DriveTrain();
 		m_chooser.addDefault("Default Auto", new StartFromLeft());
+		m_chooser.addObject("Start from middle", new StartFromMiddle());
+		m_chooser.addObject("Start from right", new StartFromRight());
+		m_chooser.addObject("Do nothing", new DoNothing());
+		m_chooser.addObject("Drive straight left", new DriveStraightLeft());
+		m_chooser.addObject("Drive straight right", new DriveStraightRight());
+
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		prefs = Preferences.getInstance();
