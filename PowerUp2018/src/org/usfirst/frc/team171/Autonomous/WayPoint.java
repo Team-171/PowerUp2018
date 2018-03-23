@@ -1,6 +1,8 @@
 package org.usfirst.frc.team171.Autonomous;
 
 import org.usfirst.frc.team171.robot.Robot;
+import org.usfirst.frc.team171.robot.PIDsubsystems.AutoMovementX;
+import org.usfirst.frc.team171.robot.PIDsubsystems.AutoMovementY;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,7 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class WayPoint extends Command {
-
+	
+	public static AutoMovementX PIDX = new AutoMovementX();
+	public static AutoMovementY PIDY = new AutoMovementY();
 	private double m_targetX;
 	private double m_targetY;
 	private double m_targetAngle;
@@ -62,17 +66,20 @@ public class WayPoint extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putBoolean("Waypoint Running", plotPath[0].isRunning());
+    	SmartDashboard.putBoolean("Waypoint Running", plotPath[0].isFinished());
     	
-    	if(!plotPath[currentWaypoint].isRunning())
+    	if(!plotPath[currentWaypoint].isFinished())
     	{
+    		plotPath[currentWaypoint].end();
     		plotPath[++currentWaypoint].start();
     	}
+    	
+    	plotPath[currentWaypoint].run();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;//!plotPath[numWaypoints].isRunning();
+        return !plotPath[numWaypoints].isFinished();
     }
 
     // Called once after isFinished returns true

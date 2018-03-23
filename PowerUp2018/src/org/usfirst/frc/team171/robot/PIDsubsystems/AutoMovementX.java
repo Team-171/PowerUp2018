@@ -14,16 +14,11 @@ public class AutoMovementX extends PIDSubsystem {
 	private static final double Kp = .07;
 	private static final double Ki = 0.0;
 	private static final double Kd = 0.000;
-
-	private SubWaypoint m_wayPoint;
 	
     // Initialize your subsystem here
-    public AutoMovementX(SubWaypoint wayPoint, double target) {
+    public AutoMovementX() {
     	super("AutoMovementX", Kp, Ki, Kd);
-    	setSetpoint(target);
-    	enable();
 		getPIDController().setPercentTolerance(1);
-    	m_wayPoint = wayPoint;
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
         //                  to
@@ -33,6 +28,11 @@ public class AutoMovementX extends PIDSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void setWaypoint(SubWaypoint wayPoint){
+    	setSetpoint(wayPoint.getTargetX());
+    	setOutputRange(-wayPoint.getSpeed(), wayPoint.getSpeed());
     }
 
     protected double returnPIDInput() {

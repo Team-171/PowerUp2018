@@ -15,15 +15,11 @@ public class AutoMovementY extends PIDSubsystem {
 	private static final double Ki = 0.0;
 	private static final double Kd = 0.000;
 	
-	private SubWaypoint m_wayPoint;
 	
     // Initialize your subsystem here
-    public AutoMovementY(SubWaypoint wayPoint, double target) {
+    public AutoMovementY() {
     	super("AutoMovementY", Kp, Ki, Kd);
-    	setSetpoint(target);
-    	enable();
 		getPIDController().setPercentTolerance(1);
-    	m_wayPoint = wayPoint;
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
         //                  to
@@ -35,6 +31,11 @@ public class AutoMovementY extends PIDSubsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 
+    public void setWaypoint(SubWaypoint wayPoint){
+    	setSetpoint(wayPoint.getTargetY());
+    	setOutputRange(-wayPoint.getSpeed(), wayPoint.getSpeed());
+    }
+    
     protected double returnPIDInput() {
     	
         // Return your input value for the PID loop

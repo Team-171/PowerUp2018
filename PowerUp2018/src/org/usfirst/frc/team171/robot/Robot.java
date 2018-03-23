@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 	public static boolean joystickRunning = true;
 	
 	
-	CommandGroup m_autonomousCommand;
+	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	/**
