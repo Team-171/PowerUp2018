@@ -16,42 +16,46 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class StartFromLeft extends CommandGroup {
-	
+
 	String message;
 
-    public StartFromLeft() {
-    	
-    	message = DriverStation.getInstance().getGameSpecificMessage();
-    	
-    	addParallel(new JoystickEnabled(false));
-    	
-    	if (message.substring(0, 0) == "L") {
-    		addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.SIDE));
-    		addSequential(new PickUpCube(1));
-    		
-    		switch (message.substring(1, 1)) {
-        	case "L":
-        		addSequential(new PlaceCubeLeftScale());
-        		addSequential(new PickUpCube(2));
-        		addSequential(new PlaceCubeLeftScale());
-        		break;
-        	case "R":    		
-        		addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
-        		addSequential(new PickUpCube(2));
-        		addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
-        		break;
-        	}
-    	} else if (message.substring(1, 1) == "L") {
-    		addSequential(new PlaceCubeLeftScale());
-    		addSequential(new PickUpCube(1));
-    		addSequential(new PlaceCubeLeftScale());
-    	} else {
-    		addSequential(new PlatformClearLeft(90));
-    		addSequential(new PlaceCubeRightScale());
-    		addSequential(new PickUpCube(6));
-    		addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
-    		addSequential(new PickUpCube(5));
-    		addSequential(new PlaceCubeRightScale());
-    	}
-    }
+	public StartFromLeft() {
+
+//		message = "   ";
+		message = DriverStation.getInstance().getGameSpecificMessage();
+
+		addParallel(new JoystickEnabled(false));
+
+		if (message.length() > 0) {
+			if (message.charAt(0) == 'L') {
+				addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.SIDE));
+				addSequential(new PickUpCube(1));
+
+				switch (message.charAt(1)) {
+				case 'L':
+					addSequential(new PlaceCubeLeftScale());
+					addSequential(new PickUpCube(2));
+					addSequential(new PlaceCubeLeftScale());
+					break;
+				case 'R':
+					addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
+					addSequential(new PickUpCube(2));
+					addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
+					break;
+				}
+			} else if (message.charAt(1) == 'L') {
+				addSequential(new PlaceCubeLeftScale());
+				addSequential(new PickUpCube(1));
+				addSequential(new PlaceCubeLeftScale());
+			} else {
+				addSequential(new PlatformClearLeft(90));
+				addSequential(new PlaceCubeRightScale());
+				addSequential(new PickUpCube(6));
+				addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
+				addSequential(new PickUpCube(5));
+				addSequential(new PlaceCubeRightScale());
+			}
+		}
+
+	}
 }

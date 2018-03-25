@@ -4,6 +4,8 @@ import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.PIDsubsystems.AutoMovementX;
 import org.usfirst.frc.team171.robot.PIDsubsystems.AutoMovementY;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class SubWaypoint {
 	
 	private double targetX;
@@ -11,7 +13,7 @@ public class SubWaypoint {
 	private double targetAngle;
 	private double speed;
 	
-	private double inPositionDistance = 1;
+	private double inPositionDistance = 10;
 	private double initialDistance;
 	private double remainingDistance;
 	private double lastRemainingDistance;
@@ -31,17 +33,20 @@ public class SubWaypoint {
 		WayPoint.PIDX.setWaypoint(this);
 		WayPoint.PIDY.setWaypoint(this);
 		
-		initialDistance = Math.hypot((Robot.driveTrain.robotPosition()[0]-targetX), (Robot.driveTrain.robotPosition()[1]-targetY));
+		initialDistance = Math.hypot((targetX - Robot.driveTrain.robotPosition()[0]), (targetY - Robot.driveTrain.robotPosition()[1]));
     	remainingDistance = initialDistance;
     	lastRemainingDistance = initialDistance;
     	initialAngle = Robot.gyro.getGyroAngle();
     	
     	angleDifference = Robot.gyro.getAngleError(targetAngle);
+//    	SmartDashboard.putString("SubWaypoint", "X: " + this.targetX + "Y: " + this.targetY);
 	}
 	
 	public void run(){
-        remainingDistance = Math.hypot((Robot.driveTrain.robotPosition()[0]-targetX), (Robot.driveTrain.robotPosition()[1]-targetY));
+        remainingDistance = Math.hypot((targetX - Robot.driveTrain.robotPosition()[0]), (targetY - Robot.driveTrain.robotPosition()[1]));
     	
+//        SmartDashboard.putNumber("PIDx", WayPoint.PIDX.getPIDController().get());
+//        SmartDashboard.putNumber("PIDy", WayPoint.PIDY.getPIDController().get());
     	Robot.driveTrain.driveSwerve(WayPoint.PIDX.getPIDController().get(), WayPoint.PIDY.getPIDController().get(), 0);
     	
     	if(remainingDistance<lastRemainingDistance)
@@ -58,7 +63,7 @@ public class SubWaypoint {
 	
 	public void end(){
     	Robot.gyro.setTargetAngle(targetAngle);
-    	Robot.driveTrain.stopSwerve();
+//    	Robot.driveTrain.stopSwerve();
     	Robot.gyro.gyroKp = 0.007;
 	}
 	
@@ -72,5 +77,9 @@ public class SubWaypoint {
 	
 	public double getSpeed(){
 		return this.speed;
+	}
+	
+	public double getAngle(){
+		return this.targetAngle;
 	}
 }

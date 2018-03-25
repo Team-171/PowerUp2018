@@ -24,8 +24,8 @@ public class PositionElevator extends PIDSubsystem {
         //                  to
         // enable() - Enables the PID controller.
 
-		getPIDController().setContinuous();
 		getPIDController().setInputRange(0, 100); //Todo: Set range to inches
+		getPIDController().setContinuous();
 		getPIDController().setPercentTolerance(1);
 		getPIDController().setOutputRange(-.75, .75);
     	enable();

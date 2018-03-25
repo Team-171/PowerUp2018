@@ -22,7 +22,7 @@ public class RunFromJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double deadband = .1;
+    	double deadband = .2;
     	
     	if(Robot.joystickRunning){
     		Robot.driveTrain.driveSwerve(getOutput(deadband, 0.99, Robot.oi.gamepad.getX()), getOutput(deadband, 0.99, -Robot.oi.gamepad.getY()), getOutput(deadband, 0.99, Robot.oi.gamepad.getRawAxis(4)));

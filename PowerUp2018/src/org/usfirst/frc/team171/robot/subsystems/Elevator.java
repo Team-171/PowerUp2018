@@ -34,7 +34,7 @@ public class Elevator extends Subsystem {
     public double getElevatorPosition() {
     	//Todo: add elevator control logic
     	
-    	return m_liftEncoder.get();
+    	return 0;//m_liftEncoder.get();
     }
     
     public void resetEncoder(){

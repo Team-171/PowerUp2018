@@ -15,39 +15,42 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class StartFromRight extends CommandGroup {
-	
+
 	String message;
 
-    public StartFromRight() {
-    	
-    	addParallel(new JoystickEnabled(false));
-    	message = DriverStation.getInstance().getGameSpecificMessage();
-    	
-    	if (message.substring(0, 0) == "R") {
-    		addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.SIDE));
-    		addSequential(new PickUpCube(6));
-    		
-    		switch (message.substring(1, 1)) {
-        	case "R":
-        		addSequential(new PlaceCubeRightScale());
-        		break;
-        	case "L":    		
-        		addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
-        		addSequential(new PickUpCube(2));
-        		addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
-        		break;
-    		}
-    	} else if (message.substring(1, 1) == "R") {
-    		addSequential(new PlaceCubeRightScale());
-    		addSequential(new PickUpCube(6));
-    		addSequential(new PlaceCubeRightScale());
-    	} else {
-    		addSequential(new PlatformClearRight(270));
-    		addSequential(new PlaceCubeLeftScale());
-    		addSequential(new PickUpCube(1));
-    		addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
-    		addSequential(new PickUpCube(2));
-    		addSequential(new PlaceCubeLeftScale());
-    	}
-    }
+	public StartFromRight() {
+
+		addParallel(new JoystickEnabled(false));
+		message = DriverStation.getInstance().getGameSpecificMessage();
+
+		if (message.length() > 0) {
+			if (message.substring(0, 0) == "R") {
+				addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.SIDE));
+				addSequential(new PickUpCube(6));
+
+				switch (message.substring(1, 1)) {
+				case "R":
+					addSequential(new PlaceCubeRightScale());
+					break;
+				case "L":
+					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
+					addSequential(new PickUpCube(2));
+					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
+					break;
+				}
+			} else if (message.substring(1, 1) == "R") {
+				addSequential(new PlaceCubeRightScale());
+				addSequential(new PickUpCube(6));
+				addSequential(new PlaceCubeRightScale());
+			} else {
+				addSequential(new PlatformClearRight(270));
+				addSequential(new PlaceCubeLeftScale());
+				addSequential(new PickUpCube(1));
+				addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
+				addSequential(new PickUpCube(2));
+				addSequential(new PlaceCubeLeftScale());
+			}
+		}
+
+	}
 }

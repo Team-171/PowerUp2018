@@ -63,7 +63,7 @@ public class Gyro extends Subsystem {
 		return angle;
 	}
 	
-	public double normalizeAngle(double angle){
+	public static double normalizeAngle(double angle){
 		while (angle > 360) {
 			angle -= 360;
 		}

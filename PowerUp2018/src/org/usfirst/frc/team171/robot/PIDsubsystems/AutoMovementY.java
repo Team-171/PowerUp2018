@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoMovementY extends PIDSubsystem {
 
-	private static final double Kp = .07;
+	private static final double Kp = .1;
 	private static final double Ki = 0.0;
 	private static final double Kd = 0.000;
 	
@@ -20,6 +20,7 @@ public class AutoMovementY extends PIDSubsystem {
     public AutoMovementY() {
     	super("AutoMovementY", Kp, Ki, Kd);
 		getPIDController().setPercentTolerance(1);
+		setSetpoint(0);
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
         //                  to
@@ -34,6 +35,7 @@ public class AutoMovementY extends PIDSubsystem {
     public void setWaypoint(SubWaypoint wayPoint){
     	setSetpoint(wayPoint.getTargetY());
     	setOutputRange(-wayPoint.getSpeed(), wayPoint.getSpeed());
+//    	SmartDashboard.putNumber("Y", this.getSetpoint());
     }
     
     protected double returnPIDInput() {
@@ -45,7 +47,7 @@ public class AutoMovementY extends PIDSubsystem {
     }
 
     protected void usePIDOutput(double output) {
-    	SmartDashboard.putNumber("Y Auto", output);
+//    	SmartDashboard.putNumber("Y Auto", output);
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
 //    	m_wayPoint.setYOutput(output);

@@ -5,6 +5,7 @@ import org.usfirst.frc.team171.robot.PIDsubsystems.PositionWheel;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
@@ -19,26 +20,30 @@ public class SwerveModule {
 	public double fieldX = 0.0;
 	public double fieldY = 0.0;
 	public double forwardAngle = 0;
+	public double testAng = 0;
 	
 	private boolean reversed = false;
 	private int rate = 200; // Hz
 	private double lastAngle;
 	private double lastEncoderReading;
-	private double wheelSize = 5.3770491803278688524590163934426;//4.0;// wheel size in inches
+	private double wheelSize = 4.0;// wheel size in inches
 	private double calculatedEncoderCount = 0.0;
 	private double lastCalculatedEncoderCount = 0.0;
 	private double wheelToEncoderRatio = 3.2;
 	private double moduleRotationRatio = 2.3;
-	private double countsPerRev = 400;
-	public double testAng = 0;
+	private int countsPerRev;
+	private String name;
+	private double time = 0;
 
-	public SwerveModule(PWMTalonSRX drive, Encoder driveEnc, PWMTalonSRX dir, AbsoluteEncoder dirEnc, double forwardAng) {
+	public SwerveModule(PWMTalonSRX drive, Encoder driveEnc, PWMTalonSRX dir, AbsoluteEncoder dirEnc, int countsPerRev, double forwardAng, String name) {
 		this.driveMotor = drive;
 		this.driveEncoder = driveEnc;
 		this.directionMotor = dir;
 		this.directionEncoder = dirEnc;
 		this.PIDController = new PositionWheel(this);
 		this.forwardAngle = forwardAng;
+		this.countsPerRev = countsPerRev;
+		this.name = name;
 
 		lastAngle = directionEncoder.getAngle();
 		lastEncoderReading = lastCalculatedEncoderCount = driveEncoder.get();
@@ -66,25 +71,25 @@ public class SwerveModule {
 				currentAngle += 360;
 			}
 			
-			if(Math.abs(currentAngle - lastAngle)>1)
-			{
-				double angleDifference;
-				
-				if(currentAngle<10 && lastAngle > 350)
-				{
-					angleDifference = (360 - lastAngle) + currentAngle;
-				}
-				else if(lastAngle<10 && currentAngle > 350)
-				{
-					angleDifference = (currentAngle - 360) - lastAngle;
-				}
-				else
-				{
-					angleDifference = currentAngle  - lastAngle;
-				}
-				
-				calculatedEncoderCount += (angleDifference / 360) * moduleRotationRatio * countsPerRev;
-			}
+//			if(Math.abs(currentAngle - lastAngle)>1)
+//			{
+//				double angleDifference;
+//				
+//				if(currentAngle<10 && lastAngle > 350)
+//				{
+//					angleDifference = (360 - lastAngle) + currentAngle;
+//				}
+//				else if(lastAngle<10 && currentAngle > 350)
+//				{
+//					angleDifference = (currentAngle - 360) - lastAngle;
+//				}
+//				else
+//				{
+//					angleDifference = currentAngle  - lastAngle;
+//				}
+//				
+//				calculatedEncoderCount += (angleDifference / 360) * moduleRotationRatio * countsPerRev;
+//			}
 			
 			double fieldAngle = currentAngle + Robot.gyro.getGyroAngle();
 			
@@ -97,13 +102,15 @@ public class SwerveModule {
 				fieldAngle -= 360;
 			}
 			
-			fieldX += Math.cos(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * (((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
-			fieldY += Math.sin(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * (((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev / wheelToEncoderRatio) * (Math.PI * wheelSize));
-			
+			fieldX += Math.cos(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
+			fieldY += Math.sin(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));
+//			SmartDashboard.putNumber("Module Field Angle: " + this.name, Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))/Math.PI);
 
 			lastAngle = currentAngle;
 			lastEncoderReading = driveEncoder.get();
 			lastCalculatedEncoderCount = calculatedEncoderCount;
+			SmartDashboard.putNumber("Delta Time" + this.name, Timer.getFPGATimestamp() - time);
+			time = Timer.getFPGATimestamp();
 
 			try {
 				Thread.sleep(1000 / rate);

@@ -28,17 +28,17 @@ public class SetRobotPosition extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		RobotMap.leftFrontSwerve.setFieldXY(
-				(robotWidth * Math.cos(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 135))) + m_fieldX,
-				(robotLength * Math.sin(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 135))) + m_fieldY);
-		RobotMap.leftBackSwerve.setFieldXY(
-				(robotWidth * Math.cos(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 225))) + m_fieldX,
-				(robotLength * Math.sin(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 225))) + m_fieldY);
-		RobotMap.rightFrontSwerve.setFieldXY(
 				(robotWidth * Math.cos(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 45))) + m_fieldX,
 				(robotLength * Math.sin(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 45))) + m_fieldY);
+		RobotMap.leftBackSwerve.setFieldXY(
+				(robotWidth * Math.cos(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 135))) + m_fieldX,
+				(robotLength * Math.sin(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 135))) + m_fieldY);
+		RobotMap.rightFrontSwerve.setFieldXY(
+				(robotWidth * Math.cos(Math.toRadians(Robot.gyro.getUnitCircleAngle() - 45))) + m_fieldX,
+				(robotLength * Math.sin(Math.toRadians(Robot.gyro.getUnitCircleAngle() - 45))) + m_fieldY);
 		RobotMap.rightBackSwerve.setFieldXY(
-				(robotWidth * Math.cos(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 315))) + m_fieldX,
-				(robotLength * Math.sin(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 315))) + m_fieldY);
+				(robotWidth * Math.cos(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 225))) + m_fieldX,
+				(robotLength * Math.sin(Math.toRadians(Robot.gyro.getUnitCircleAngle() + 225))) + m_fieldY);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

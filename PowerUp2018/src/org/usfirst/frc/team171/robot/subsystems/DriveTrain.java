@@ -134,8 +134,11 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void updateStatus(){
-//		SmartDashboard.putNumber("Front Left Position X", RobotMap.leftFrontSwerve.fieldX);
-//		SmartDashboard.putNumber("Front Left Position Y", RobotMap.leftFrontSwerve.fieldY);
+		SmartDashboard.putString("Front Left Position", "X: " + RobotMap.leftFrontSwerve.fieldX + ", Y: " +  RobotMap.leftFrontSwerve.fieldY);
+		SmartDashboard.putString("Back Left Position", "X: " + RobotMap.leftBackSwerve.fieldX + ", Y: " +  RobotMap.leftBackSwerve.fieldY);
+		
+		SmartDashboard.putString("Front Right Position", "X: " + RobotMap.rightFrontSwerve.fieldX + ", Y: " +  RobotMap.rightFrontSwerve.fieldY);
+		SmartDashboard.putString("Back Right Position", "X: " + RobotMap.rightBackSwerve.fieldX + ", Y: " +  RobotMap.rightBackSwerve.fieldY);
 //		
 //		SmartDashboard.putNumber("Back Left Position X", RobotMap.leftBackSwerve.fieldX);
 //		SmartDashboard.putNumber("Back Left Position Y", RobotMap.leftBackSwerve.fieldY);

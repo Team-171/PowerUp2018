@@ -23,8 +23,8 @@ public class PositionWheel extends PIDSubsystem {
     	super("PositionWheel", Kp, Ki, Kd);
     	this.mModule = mod;
     	setSetpoint(0);
-		getPIDController().setContinuous();
 		getPIDController().setInputRange(0, 360);
+		getPIDController().setContinuous();
 		getPIDController().setPercentTolerance(1);
 		getPIDController().setOutputRange(-.75, .75);
     	enable();

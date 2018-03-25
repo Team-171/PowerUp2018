@@ -83,10 +83,10 @@ public class RobotMap {
 		driveRightFrontDirMotor = new PWMTalonSRX(5);
 		driveRightBackDirMotor = new PWMTalonSRX(6);
 		
-		liftMotor = new PWMTalonSRX(8);
+		liftMotor = new PWMTalonSRX(15);
 		
-		leftArmMotor = new PWMTalonSRX(9);
-		rightArmMotor  =new PWMTalonSRX(10);
+		leftArmMotor = new PWMTalonSRX(8);
+		rightArmMotor = new PWMTalonSRX(9);
 		
 		leftFrontDirEncoder = new AbsoluteEncoder(0);
 		leftBackDirEncoder = new AbsoluteEncoder(3);
@@ -97,15 +97,15 @@ public class RobotMap {
 		leftBackEncoder = new Encoder(4, 5);
 		rightFrontEncoder = new Encoder(7, 8);
 		rightBackEncoder = new Encoder(11, 12);
-		elevatorEncoder = new Encoder(13, 14);
+//		elevatorEncoder = new Encoder(13, 14);
 		
-		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 101);
+		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 600, 48, "Front Left");
 		
-		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 237);
+		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 600, 156, "Back Left");
 		
-		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 283);
+		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 128, 7, "Front Right");
 
-		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 62);
+		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 128, 288, "Back Right");
 		
 		elevator = new Elevator(liftMotor, elevatorEncoder);
 		

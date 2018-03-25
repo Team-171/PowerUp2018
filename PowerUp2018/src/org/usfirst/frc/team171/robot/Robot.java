@@ -90,10 +90,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", m_chooser);
 		prefs = Preferences.getInstance();
 				
-        RobotMap.leftFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
-		RobotMap.leftBackSwerve.PIDController.setPIDF(0.009, 0, 0, 0);
+        RobotMap.leftFrontSwerve.PIDController.setPIDF(0.015, 0, 0, 0);
+		RobotMap.leftBackSwerve.PIDController.setPIDF(0.015, 0, 0, 0);
 		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
-		RobotMap.rightBackSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
+		RobotMap.rightBackSwerve.PIDController.setPIDF(0.015, 0, 0, 0);
 	}
 
 	/**
@@ -175,6 +175,7 @@ public class Robot extends TimedRobot {
 //		RobotMap.rightBackSwerve.PIDController.disable();
 		gyro.resetGyro();
 		gyro.setTargetAngle(gyro.getGyroAngle());
+		new SetRobotPosition(0, 0).start();
 		
 //		new SetRobotPosition(0, 20).start();
 	}
@@ -209,6 +210,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Back Left Angle", RobotMap.leftBackSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Front Right Angle", RobotMap.rightFrontSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Back Right Angle", RobotMap.rightBackSwerve.directionEncoder.getAngle());
+		SmartDashboard.putNumber("Encoder Front", RobotMap.rightFrontEncoder.get());
+		SmartDashboard.putNumber("Encoder Back", RobotMap.rightBackEncoder.get());
 //		SmartDashboard.putBoolean("Rotating", driveTrain.rotating);
 //		
 //		SmartDashboard.putNumber("Left Front Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());

@@ -42,7 +42,7 @@ public class OI {
 		
 		testPosition = new JoystickButton(gamepad, 6);
 		testPosition.whenPressed(new SetRobotPosition(0, 0));
-		testPosition.whenReleased(new WayPoint(60, 60, 90, .25));
+		testPosition.whenReleased(new WayPoint(60, 100, 0, .4));
 		
 //		noDriveMode = new JoystickButton(gamepad, 5);
 //		noDriveMode.whenPressed(new NoDriveMode());
