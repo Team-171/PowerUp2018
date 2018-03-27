@@ -23,7 +23,7 @@ public class SwerveModule {
 	public double testAng = 0;
 	
 	private boolean reversed = false;
-	private int rate = 200; // Hz
+	private int rate = 300; // Hz
 	private double lastAngle;
 	private double lastEncoderReading;
 	private double wheelSize = 4.0;// wheel size in inches
@@ -71,36 +71,38 @@ public class SwerveModule {
 				currentAngle += 360;
 			}
 			
-//			if(Math.abs(currentAngle - lastAngle)>1)
-//			{
-//				double angleDifference;
-//				
-//				if(currentAngle<10 && lastAngle > 350)
-//				{
-//					angleDifference = (360 - lastAngle) + currentAngle;
-//				}
-//				else if(lastAngle<10 && currentAngle > 350)
-//				{
-//					angleDifference = (currentAngle - 360) - lastAngle;
-//				}
-//				else
-//				{
-//					angleDifference = currentAngle  - lastAngle;
-//				}
-//				
-//				calculatedEncoderCount += (angleDifference / 360) * moduleRotationRatio * countsPerRev;
-//			}
+			if(Math.abs(currentAngle - lastAngle)>1)
+			{
+				double angleDifference;
+				
+				if(currentAngle<10 && lastAngle > 350)
+				{
+					angleDifference = (360 - lastAngle) + currentAngle;
+				}
+				else if(lastAngle<10 && currentAngle > 350)
+				{
+					angleDifference = (currentAngle - 360) - lastAngle;
+				}
+				else
+				{
+					angleDifference = currentAngle  - lastAngle;
+				}
+				
+				calculatedEncoderCount += (angleDifference / 360) * moduleRotationRatio * countsPerRev;
+			}
 			
 			double fieldAngle = currentAngle + Robot.gyro.getGyroAngle();
 			
-			if(fieldAngle < 0)
+			while(fieldAngle < 0)
 			{
 				fieldAngle += 360;
 			}
-			if(fieldAngle > 360)
+			while(fieldAngle > 360)
 			{
 				fieldAngle -= 360;
 			}
+			
+			SmartDashboard.putNumber("Field Angle " + this.name, fieldAngle);
 			
 			fieldX += Math.cos(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
 			fieldY += Math.sin(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));

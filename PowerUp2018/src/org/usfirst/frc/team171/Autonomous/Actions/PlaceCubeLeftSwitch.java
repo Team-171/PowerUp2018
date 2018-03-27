@@ -26,14 +26,14 @@ public class PlaceCubeLeftSwitch extends CommandGroup {
     		break;
     		
     	case SIDE:
-    		addSequential(new WayPoint(65, 167.5, 90, 0.5));
+    		addSequential(new WayPoint(65, 167.5, 90, 0.4));
     		break;
     		
     	case BACK:
     		if (!overrideClear) {
         		addSequential(new PlatformClearLeft(270));
     		}
-    		addSequential(new WayPoint(106, 167.5, 90, 0.5));
+    		addSequential(new WayPoint(106, 167.5, 90, 0.4));
     		break;
     	}
     }

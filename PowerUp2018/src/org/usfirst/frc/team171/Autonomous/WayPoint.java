@@ -18,7 +18,9 @@ public class WayPoint extends Command {
 	private double m_targetX;
 	private double m_targetY;
 	private double m_targetAngle;
-	private double waypointSpacing = 40;
+	private double waypointSpacing = 4;
+	private double inPositionDistance = 15;
+	private double lastInPositionDistance = 4;
 	private double initialAngle;
 	private double initialDistance;
 	private double m_speed;
@@ -62,32 +64,38 @@ public class WayPoint extends Command {
 			// SmartDashboard.putNumber("y" + i, yAddition);
 
 			plotPath[i] = new SubWaypoint((initialLocation[0] + xAddition), (initialLocation[1] + yAddition),
-					org.usfirst.frc.team171.robot.subsystems.Gyro.normalizeAngle(initialAngle + angleAddition),
-					m_speed);
+					org.usfirst.frc.team171.robot.subsystems.Gyro.normalizeAngle(initialAngle + angleAddition), m_speed,
+					inPositionDistance);
 
-			SmartDashboard.putString("SubWaypoint" + i, "X: " + plotPath[i].getTargetX() + ", Y: "
-					+ plotPath[i].getTargetY() + ", Angle: " + plotPath[i].getAngle());
+			SmartDashboard.putNumber("SubWaypoint" + i + "X", plotPath[i].getTargetX());
+			SmartDashboard.putNumber("SubWaypoint" + i + "Y", plotPath[i].getTargetY());
 		}
-		plotPath[numWaypoints - 1] = new SubWaypoint(m_targetX, m_targetY, m_targetAngle, m_speed);
+		plotPath[numWaypoints - 1] = new SubWaypoint(m_targetX, m_targetY, m_targetAngle, m_speed,
+				lastInPositionDistance);
 
-		SmartDashboard.putString("SubWaypoint" + (numWaypoints - 1),
-				"X: " + plotPath[numWaypoints - 1].getTargetX() + ", Y: " + plotPath[numWaypoints - 1].getTargetY());
+		SmartDashboard.putNumber("SubWaypoint" + (numWaypoints - 1) + "X", plotPath[(numWaypoints - 1)].getTargetX());
+		SmartDashboard.putNumber("SubWaypoint" + (numWaypoints - 1) + "Y", plotPath[(numWaypoints - 1)].getTargetY());
 
-		plotPath[0].start();
+//		plotPath[0].start();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		SmartDashboard.putBoolean("Waypoint Running", plotPath[0].isFinished());
 
-		if (plotPath[currentWaypoint].isFinished()) {
-			plotPath[currentWaypoint].end();
-			if (currentWaypoint < (numWaypoints - 1)) {
-				plotPath[++currentWaypoint].start();
+		try {
+			if (plotPath[currentWaypoint].isFinished()) {
+				plotPath[currentWaypoint].end();
+				if (currentWaypoint < (numWaypoints - 1)) {
+					plotPath[++currentWaypoint].start();
+				}
 			}
+
+			plotPath[currentWaypoint].run();
+		} catch (Exception e) {
+			System.out.println(e.toString() + " Current: " + currentWaypoint + " Numwaypoints: " + numWaypoints);
 		}
 
-		plotPath[currentWaypoint].run();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -6,6 +6,7 @@ import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeLeftSwitch;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightScale;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightSwitch;
 import org.usfirst.frc.team171.Autonomous.Actions.PlatformClearRight;
+import org.usfirst.frc.team171.Autonomous.SetStartingPosition.SetPositionRight;
 import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,6 +22,7 @@ public class StartFromRight extends CommandGroup {
 	public StartFromRight() {
 
 		addParallel(new JoystickEnabled(false));
+		addParallel(new SetPositionRight());
 		message = DriverStation.getInstance().getGameSpecificMessage();
 
 		if (message.length() > 0) {

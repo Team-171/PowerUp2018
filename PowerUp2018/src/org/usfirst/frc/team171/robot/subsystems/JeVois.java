@@ -11,14 +11,15 @@ public class JeVois extends Subsystem {
     SerialPort JeVois;
     
     public JeVois () {
-    	JeVois = new SerialPort(115200, SerialPort.Port.kUSB);
+//    	JeVois = new SerialPort(115200, SerialPort.Port.kUSB);
     }
 
     public void initDefaultCommand() {
     }
     
     public String read() {
-    	return JeVois.readString();
+    	return "";
+//    	return JeVois.readString();
     }
 }
 

@@ -5,6 +5,7 @@ import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeLeftScale;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeLeftSwitch;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightScale;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightSwitch;
+import org.usfirst.frc.team171.Autonomous.SetStartingPosition.SetPositionMiddle;
 import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -20,6 +21,7 @@ public class StartFromMiddle extends CommandGroup {
 	public StartFromMiddle() {
 
 		addParallel(new JoystickEnabled(false));
+		addParallel(new SetPositionMiddle());
 		message = DriverStation.getInstance().getGameSpecificMessage();
 
 		if (message.length() > 0) {

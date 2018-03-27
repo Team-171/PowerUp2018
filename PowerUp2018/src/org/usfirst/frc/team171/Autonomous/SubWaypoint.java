@@ -13,18 +13,19 @@ public class SubWaypoint {
 	private double targetAngle;
 	private double speed;
 	
-	private double inPositionDistance = 10;
+	private double inPositionDistance;
 	private double initialDistance;
 	private double remainingDistance;
 	private double lastRemainingDistance;
 	private double initialAngle;
 	private double angleDifference;
 	
-	public SubWaypoint(double m_targetX, double m_targetY, double m_targetAngle, double m_speed) {
+	public SubWaypoint(double m_targetX, double m_targetY, double m_targetAngle, double m_speed, double inPositionDistance) {
         this.targetX = m_targetX;
     	this.targetY = m_targetY;
     	this.targetAngle = m_targetAngle;
     	this.speed = m_speed;
+    	this.inPositionDistance = inPositionDistance;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

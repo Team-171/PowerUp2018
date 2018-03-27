@@ -79,7 +79,7 @@ public class Robot extends TimedRobot {
 		RobotMap.init();
 		oi = new OI();
 		driveTrain = new DriveTrain();
-		m_chooser.addDefault("Default Auto", new StartFromLeft());
+		m_chooser.addDefault("Start From Left", new StartFromLeft());
 		m_chooser.addObject("Start from middle", new StartFromMiddle());
 		m_chooser.addObject("Start from right", new StartFromRight());
 		m_chooser.addObject("Do nothing", new DoNothing());
@@ -90,10 +90,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", m_chooser);
 		prefs = Preferences.getInstance();
 				
-        RobotMap.leftFrontSwerve.PIDController.setPIDF(0.015, 0, 0, 0);
-		RobotMap.leftBackSwerve.PIDController.setPIDF(0.015, 0, 0, 0);
-		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.007, 0, 0, 0);
-		RobotMap.rightBackSwerve.PIDController.setPIDF(0.015, 0, 0, 0);
+        RobotMap.leftFrontSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
+		RobotMap.leftBackSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
+		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
+		RobotMap.rightBackSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
 	}
 
 	/**
@@ -212,6 +212,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Back Right Angle", RobotMap.rightBackSwerve.directionEncoder.getAngle());
 		SmartDashboard.putNumber("Encoder Front", RobotMap.rightFrontEncoder.get());
 		SmartDashboard.putNumber("Encoder Back", RobotMap.rightBackEncoder.get());
+		SmartDashboard.putNumber("Displacement", imu.getVelocityX());
 //		SmartDashboard.putBoolean("Rotating", driveTrain.rotating);
 //		
 //		SmartDashboard.putNumber("Left Front Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());

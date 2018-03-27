@@ -21,11 +21,11 @@ public class PickUpCube extends CommandGroup {
     	switch (cubeNumber) {
     	case 1:
     		addSequential(new PlatformClearLeft(135));
-    		addSequential(new WayPoint(92, 235, 180, 0.5));
+    		addSequential(new WayPoint(92, 235, 180, 0.4));
     		addSequential(new SetIntakeSpeed(0.5));
-    		addSequential(new WayPoint(92, 225, 180, 0.25));
+    		addSequential(new WayPoint(92, 225, 180, 0.4));
     		addParallel(new SetIntakeSpeed(0));
-    		addSequential(new WayPoint(92, 235, 180, 0.5));
+    		addSequential(new WayPoint(92, 235, 180, 0.4));
     		break;
     	case 2:
     		addSequential(new PlatformClearLeft(135));

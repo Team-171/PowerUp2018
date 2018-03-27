@@ -134,23 +134,31 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void updateStatus(){
-		SmartDashboard.putString("Front Left Position", "X: " + RobotMap.leftFrontSwerve.fieldX + ", Y: " +  RobotMap.leftFrontSwerve.fieldY);
-		SmartDashboard.putString("Back Left Position", "X: " + RobotMap.leftBackSwerve.fieldX + ", Y: " +  RobotMap.leftBackSwerve.fieldY);
+//		SmartDashboard.putString("Front Left Position", "X: " + RobotMap.leftFrontSwerve.fieldX + ", Y: " +  RobotMap.leftFrontSwerve.fieldY);
+//		SmartDashboard.putString("Back Left Position", "X: " + RobotMap.leftBackSwerve.fieldX + ", Y: " +  RobotMap.leftBackSwerve.fieldY);
+//		
+//		SmartDashboard.putString("Front Right Position", "X: " + RobotMap.rightFrontSwerve.fieldX + ", Y: " +  RobotMap.rightFrontSwerve.fieldY);
+//		SmartDashboard.putString("Back Right Position", "X: " + RobotMap.rightBackSwerve.fieldX + ", Y: " +  RobotMap.rightBackSwerve.fieldY);
+//		
+		SmartDashboard.putNumber("Front Left Position X", RobotMap.leftFrontSwerve.fieldX);
+		SmartDashboard.putNumber("Front Left Position Y", RobotMap.leftFrontSwerve.fieldY);
 		
-		SmartDashboard.putString("Front Right Position", "X: " + RobotMap.rightFrontSwerve.fieldX + ", Y: " +  RobotMap.rightFrontSwerve.fieldY);
-		SmartDashboard.putString("Back Right Position", "X: " + RobotMap.rightBackSwerve.fieldX + ", Y: " +  RobotMap.rightBackSwerve.fieldY);
-//		
-//		SmartDashboard.putNumber("Back Left Position X", RobotMap.leftBackSwerve.fieldX);
-//		SmartDashboard.putNumber("Back Left Position Y", RobotMap.leftBackSwerve.fieldY);
-//		
-//		SmartDashboard.putNumber("Front Right Position X", RobotMap.rightFrontSwerve.fieldX);
-//		SmartDashboard.putNumber("Front Right Position Y", RobotMap.rightFrontSwerve.fieldY);
-//		
-//		SmartDashboard.putNumber("Back Right Position X", RobotMap.rightBackSwerve.fieldX);
-//		SmartDashboard.putNumber("Back Right Position Y", RobotMap.rightBackSwerve.fieldY);
+		SmartDashboard.putNumber("Back Left Position X", RobotMap.leftBackSwerve.fieldX);
+		SmartDashboard.putNumber("Back Left Position Y", RobotMap.leftBackSwerve.fieldY);
+		
+		SmartDashboard.putNumber("Front Right Position X", RobotMap.rightFrontSwerve.fieldX);
+		SmartDashboard.putNumber("Front Right Position Y", RobotMap.rightFrontSwerve.fieldY);
+		
+		SmartDashboard.putNumber("Back Right Position X", RobotMap.rightBackSwerve.fieldX);
+		SmartDashboard.putNumber("Back Right Position Y", RobotMap.rightBackSwerve.fieldY);
 		
 		SmartDashboard.putNumber("Robot Position X", robotPosition()[0]);
 		SmartDashboard.putNumber("Robot Position Y", robotPosition()[1]);
+		
+		SmartDashboard.putNumber("Front Left Error", RobotMap.leftFrontSwerve.PIDController.getError());
+		SmartDashboard.putNumber("Back Left Error", RobotMap.leftBackSwerve.PIDController.getError());
+		SmartDashboard.putNumber("Front Right Error", RobotMap.rightFrontSwerve.PIDController.getError());
+		SmartDashboard.putNumber("Back Right Error", RobotMap.rightBackSwerve.PIDController.getError());
 		
 //		SmartDashboard.putNumber("Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());
 		
