@@ -26,8 +26,8 @@ public class RunFromJoystick extends Command {
     	
     	if(Robot.joystickRunning){
     		Robot.driveTrain.driveSwerve(getOutput(deadband, 0.99, Robot.oi.gamepad.getX()), getOutput(deadband, 0.99, -Robot.oi.gamepad.getY()), getOutput(deadband, 0.99, Robot.oi.gamepad.getRawAxis(4)));
-    		RobotMap.elevator.moveElevatorManual(Robot.oi.gamepad.getRawAxis(2) - Robot.oi.gamepad.getRawAxis(3));
-    		RobotMap.intake.runIntake((Robot.oi.operator_gamepad.getRawButton(5)) ? -Robot.oi.operator_gamepad.getRawAxis(2) : Robot.oi.operator_gamepad.getRawAxis(2), (Robot.oi.operator_gamepad.getRawButton(6)) ? -Robot.oi.operator_gamepad.getRawAxis(3) : Robot.oi.operator_gamepad.getRawAxis(3));
+//    		RobotMap.elevator.moveElevatorManual(Robot.oi.gamepad.getRawAxis(2) - Robot.oi.gamepad.getRawAxis(3));
+    		RobotMap.intake.runIntake((Robot.oi.gamepad.getRawAxis(2) - Robot.oi.gamepad.getRawAxis(3)) * 2, (Robot.oi.gamepad.getRawAxis(2) - Robot.oi.gamepad.getRawAxis(3)) * 2);
     	}
     	
 //    	SmartDashboard.putNumber("X", getOutput(deadband, 1, Robot.oi.gamepad.getX()));

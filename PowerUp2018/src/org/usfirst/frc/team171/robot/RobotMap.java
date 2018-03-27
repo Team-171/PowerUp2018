@@ -14,6 +14,7 @@ import org.usfirst.frc.team171.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -41,10 +42,10 @@ public class RobotMap {
 	public static PWMTalonSRX driveRightFrontDirMotor;
 	public static PWMTalonSRX driveRightBackDirMotor;
 	
-	public static PWMTalonSRX liftMotor;
+	public static Spark liftMotor;
 	
-	public static PWMTalonSRX leftArmMotor;
-	public static PWMTalonSRX rightArmMotor;
+	public static Spark leftArmMotor;
+	public static Spark rightArmMotor;
 
 	public static AbsoluteEncoder leftFrontDirEncoder;
 	public static AbsoluteEncoder leftBackDirEncoder;
@@ -83,10 +84,10 @@ public class RobotMap {
 		driveRightFrontDirMotor = new PWMTalonSRX(5);
 		driveRightBackDirMotor = new PWMTalonSRX(6);
 		
-		liftMotor = new PWMTalonSRX(15);
+		liftMotor = new Spark(15);
 		
-		leftArmMotor = new PWMTalonSRX(8);
-		rightArmMotor = new PWMTalonSRX(9);
+		leftArmMotor = new Spark(18);
+		rightArmMotor = new Spark(19);
 		
 		leftFrontDirEncoder = new AbsoluteEncoder(0);
 		leftBackDirEncoder = new AbsoluteEncoder(3);

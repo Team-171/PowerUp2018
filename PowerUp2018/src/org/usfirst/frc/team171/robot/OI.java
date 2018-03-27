@@ -9,6 +9,7 @@ package org.usfirst.frc.team171.robot;
 
 import org.usfirst.frc.team171.Autonomous.SubWaypoint;
 import org.usfirst.frc.team171.Autonomous.WayPoint;
+import org.usfirst.frc.team171.RobotMotion.SetIntakeSpeed;
 import org.usfirst.frc.team171.robot.commands.NoDriveMode;
 import org.usfirst.frc.team171.robot.commands.SetFieldOriented;
 import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
