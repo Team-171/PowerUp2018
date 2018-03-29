@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoMovementY extends PIDSubsystem {
 
-	private static final double Kp = .1;
+	private static final double Kp = .05;
 	private static final double Ki = 0.0;
 	private static final double Kd = 0.000;
 	

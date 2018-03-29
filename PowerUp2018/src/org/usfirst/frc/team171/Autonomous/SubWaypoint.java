@@ -65,7 +65,7 @@ public class SubWaypoint {
 	public void end(){
     	Robot.gyro.setTargetAngle(targetAngle);
 //    	Robot.driveTrain.stopSwerve();
-    	Robot.gyro.gyroKp = 0.007;
+    	
 	}
 	
 	public double getTargetX(){

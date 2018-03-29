@@ -7,7 +7,9 @@ import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightScale;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightSwitch;
 import org.usfirst.frc.team171.Autonomous.Actions.PlatformClearRight;
 import org.usfirst.frc.team171.Autonomous.SetStartingPosition.SetPositionRight;
+import org.usfirst.frc.team171.robot.commands.FlippyDowny;
 import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
+import org.usfirst.frc.team171.robot.commands.ResetGyro;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -21,26 +23,28 @@ public class StartFromRight extends CommandGroup {
 
 	public StartFromRight() {
 
-		addParallel(new JoystickEnabled(false));
-		addParallel(new SetPositionRight());
+		addSequential(new JoystickEnabled(false));
+		addParallel(new FlippyDowny(1));
+		addSequential(new ResetGyro());
+		addSequential(new SetPositionRight());
 		message = DriverStation.getInstance().getGameSpecificMessage();
 
 		if (message.length() > 0) {
-			if (message.substring(0, 0) == "R") {
+			if (message.charAt(0) == 'R') {
 				addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.SIDE));
 				addSequential(new PickUpCube(6));
 
-				switch (message.substring(1, 1)) {
-				case "R":
+				switch (message.charAt(1)) {
+				case 'R':
 					addSequential(new PlaceCubeRightScale());
 					break;
-				case "L":
+				case 'L':
 					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
 					addSequential(new PickUpCube(2));
 					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
 					break;
 				}
-			} else if (message.substring(1, 1) == "R") {
+			} else if (message.charAt(1) == 'R') {
 				addSequential(new PlaceCubeRightScale());
 				addSequential(new PickUpCube(6));
 				addSequential(new PlaceCubeRightScale());

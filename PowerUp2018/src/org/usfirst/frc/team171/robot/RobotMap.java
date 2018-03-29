@@ -42,10 +42,10 @@ public class RobotMap {
 	public static PWMTalonSRX driveRightFrontDirMotor;
 	public static PWMTalonSRX driveRightBackDirMotor;
 	
-	public static Spark liftMotor;
+	public static PWMTalonSRX liftMotor;
 	
-	public static Spark leftArmMotor;
-	public static Spark rightArmMotor;
+	public static PWMTalonSRX leftArmMotor;
+	public static PWMTalonSRX rightArmMotor;
 
 	public static AbsoluteEncoder leftFrontDirEncoder;
 	public static AbsoluteEncoder leftBackDirEncoder;
@@ -84,10 +84,10 @@ public class RobotMap {
 		driveRightFrontDirMotor = new PWMTalonSRX(5);
 		driveRightBackDirMotor = new PWMTalonSRX(6);
 		
-		liftMotor = new Spark(15);
+		liftMotor = new PWMTalonSRX(15);
 		
-		leftArmMotor = new Spark(18);
-		rightArmMotor = new Spark(19);
+		leftArmMotor = new PWMTalonSRX(18);
+		rightArmMotor = new PWMTalonSRX(19);
 		
 		leftFrontDirEncoder = new AbsoluteEncoder(0);
 		leftBackDirEncoder = new AbsoluteEncoder(3);

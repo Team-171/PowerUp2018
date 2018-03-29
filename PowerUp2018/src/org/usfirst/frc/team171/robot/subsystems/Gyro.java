@@ -12,7 +12,7 @@ public class Gyro extends Subsystem {
 
 	public double targetAngle;
 	private double targetError;
-	public double gyroKp = .007;
+	public double gyroKp = .004;
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
@@ -89,7 +89,7 @@ public class Gyro extends Subsystem {
 		return 360 - normalizeAngle(getGyroAngle() - 90);
 	}
 	
-	public double toUnitCircleAngle(double angle){
+	public static double toUnitCircleAngle(double angle){
 		
 		return 360 - normalizeAngle(angle - 90);
 	}

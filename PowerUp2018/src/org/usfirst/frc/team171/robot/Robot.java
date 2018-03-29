@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team171.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
 	public static Gyro gyro;
 	public static Preferences prefs;
 	public static boolean joystickRunning = true;
+	public static edu.wpi.first.wpilibj.networktables.NetworkTable table;
 	
 	
 	Command m_autonomousCommand;
@@ -94,6 +96,8 @@ public class Robot extends TimedRobot {
 		RobotMap.leftBackSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
 		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
 		RobotMap.rightBackSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
+		
+		table = edu.wpi.first.wpilibj.networktables.NetworkTable.getTable("subWaypoint");
 	}
 
 	/**
@@ -162,7 +166,7 @@ public class Robot extends TimedRobot {
 		}
 		
 		joystickRunning = true;
-		
+				
 //		RobotMap.leftFrontSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
 //		RobotMap.leftBackSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
 //		RobotMap.rightFrontSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);

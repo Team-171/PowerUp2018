@@ -2,6 +2,8 @@ package org.usfirst.frc.team171.Autonomous.Actions;
 
 import org.usfirst.frc.team171.Autonomous.WayPoint;
 import org.usfirst.frc.team171.RobotMotion.SetElevatorPosition;
+import org.usfirst.frc.team171.robot.commands.SetIntake;
+import org.usfirst.frc.team171.robot.commands.TimeDelay;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -26,7 +28,10 @@ public class PlaceCubeRightSwitch extends CommandGroup {
     		break;
     		
     	case SIDE:
-    		addSequential(new WayPoint(259, 167.5, 270, 0.5));
+    		addSequential(new WayPoint(259, 167.5, 270, 0.5), 5);
+    		addSequential(new SetIntake(null, -0.75));
+    		addSequential(new TimeDelay(0.5));
+    		addSequential(new SetIntake(null, 0));
     		break;
     		
     	case BACK:
@@ -34,6 +39,9 @@ public class PlaceCubeRightSwitch extends CommandGroup {
         		addSequential(new PlatformClearRight(90));
     		}
     		addSequential(new WayPoint(218.5, 167.5, 180, 0.5));
+    		addSequential(new SetIntake(null, -0.75));
+    		addSequential(new TimeDelay(0.5));
+    		addSequential(new SetIntake(null, 0));
     		break;
     	}
     }

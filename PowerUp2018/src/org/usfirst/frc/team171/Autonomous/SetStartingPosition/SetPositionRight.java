@@ -2,22 +2,30 @@ package org.usfirst.frc.team171.Autonomous.SetStartingPosition;
 
 import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class SetPositionRight extends InstantCommand {
+public class SetPositionRight extends CommandGroup {
 
     public SetPositionRight() {
-        super();
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
+    	addSequential(new SetRobotPosition(278.5, 20.375));
+        // Add Commands here:
+        // e.g. addSequential(new Command1());
+        //      addSequential(new Command2());
+        // these will run in order.
 
-    // Called once when the command executes
-    protected void initialize() {
-    	new SetRobotPosition(278.5, 20.375).start();
-    }
+        // To run multiple commands at the same time,
+        // use addParallel()
+        // e.g. addParallel(new Command1());
+        //      addSequential(new Command2());
+        // Command1 and Command2 will run in parallel.
 
+        // A command group will require all of the subsystems that each member
+        // would require.
+        // e.g. if Command1 requires chassis, and Command2 requires arm,
+        // a CommandGroup containing them would require both the chassis and the
+        // arm.
+    }
 }

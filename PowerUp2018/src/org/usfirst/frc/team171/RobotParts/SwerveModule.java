@@ -2,6 +2,7 @@ package org.usfirst.frc.team171.RobotParts;
 
 import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.PIDsubsystems.PositionWheel;
+import org.usfirst.frc.team171.robot.subsystems.Gyro;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
@@ -91,21 +92,12 @@ public class SwerveModule {
 				calculatedEncoderCount += (angleDifference / 360) * moduleRotationRatio * countsPerRev;
 			}
 			
-			double fieldAngle = currentAngle + Robot.gyro.getGyroAngle();
-			
-			while(fieldAngle < 0)
-			{
-				fieldAngle += 360;
-			}
-			while(fieldAngle > 360)
-			{
-				fieldAngle -= 360;
-			}
+			double fieldAngle = Gyro.normalizeAngle(currentAngle + Robot.gyro.getGyroAngle());
 			
 			SmartDashboard.putNumber("Field Angle " + this.name, fieldAngle);
 			
-			fieldX += Math.cos(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
-			fieldY += Math.sin(Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));
+			fieldX += Math.cos(Math.toRadians(Gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
+			fieldY += Math.sin(Math.toRadians(Gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));
 //			SmartDashboard.putNumber("Module Field Angle: " + this.name, Math.toRadians(Robot.gyro.toUnitCircleAngle(fieldAngle))/Math.PI);
 
 			lastAngle = currentAngle;
