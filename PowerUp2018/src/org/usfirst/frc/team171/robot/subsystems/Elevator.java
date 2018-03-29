@@ -2,6 +2,8 @@ package org.usfirst.frc.team171.robot.subsystems;
 
 import org.usfirst.frc.team171.robot.PIDsubsystems.PositionElevator;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
@@ -16,15 +18,15 @@ public class Elevator extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	private PWMTalonSRX m_liftMotor;
-	private Encoder m_liftEncoder;
+	private AnalogPotentiometer m_liftPot;
 	private double moveSpeed = .25;
 	public PositionElevator elevatorPID;
 	public boolean limitReached;
 
-	public Elevator(PWMTalonSRX liftMotor, Encoder liftEncoder) {
+	public Elevator(PWMTalonSRX liftMotor, AnalogInput liftPot) {
 		this.elevatorPID = new PositionElevator(this);
 		this.m_liftMotor = liftMotor;
-		this.m_liftEncoder = liftEncoder;
+		this.m_liftPot = new AnalogPotentiometer(liftPot, 48);
 	}
 
 	public void initDefaultCommand() {
@@ -35,12 +37,12 @@ public class Elevator extends Subsystem {
 	public double getElevatorPosition() {
 		// TODO: add elevator control logic
 
-		return 0;// m_liftEncoder.get();
+		return this.m_liftPot.get();// 0;// m_liftEncoder.get();
 	}
 
-	public void resetEncoder() {
-		m_liftEncoder.reset();
-	}
+//	public void resetEncoder() {
+//		m_liftEncoder.reset();
+//	}
 
 	/**
 	 * 

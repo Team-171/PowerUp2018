@@ -12,6 +12,7 @@ import org.usfirst.frc.team171.RobotParts.SwerveModule;
 import org.usfirst.frc.team171.robot.subsystems.Elevator;
 import org.usfirst.frc.team171.robot.subsystems.Intake;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.Spark;
@@ -46,6 +47,7 @@ public class RobotMap {
 	
 	public static PWMTalonSRX leftArmMotor;
 	public static PWMTalonSRX rightArmMotor;
+	public static PWMTalonSRX flipMotor;
 
 	public static AbsoluteEncoder leftFrontDirEncoder;
 	public static AbsoluteEncoder leftBackDirEncoder;
@@ -56,7 +58,7 @@ public class RobotMap {
 	public static Encoder leftBackEncoder;
 	public static Encoder rightFrontEncoder;
 	public static Encoder rightBackEncoder;
-	public static Encoder elevatorEncoder;
+	public static AnalogInput elevatorPot;
 	
 	public static SwerveModule leftFrontSwerve;
 	public static SwerveModule leftBackSwerve;
@@ -84,10 +86,11 @@ public class RobotMap {
 		driveRightFrontDirMotor = new PWMTalonSRX(5);
 		driveRightBackDirMotor = new PWMTalonSRX(6);
 		
-		liftMotor = new PWMTalonSRX(15);
+		liftMotor = new PWMTalonSRX(13);
 		
-		leftArmMotor = new PWMTalonSRX(18);
-		rightArmMotor = new PWMTalonSRX(19);
+		leftArmMotor = new PWMTalonSRX(14);
+		rightArmMotor = new PWMTalonSRX(15);
+		flipMotor = new PWMTalonSRX(16);
 		
 		leftFrontDirEncoder = new AbsoluteEncoder(0);
 		leftBackDirEncoder = new AbsoluteEncoder(3);
@@ -98,7 +101,7 @@ public class RobotMap {
 		leftBackEncoder = new Encoder(4, 5);
 		rightFrontEncoder = new Encoder(7, 8);
 		rightBackEncoder = new Encoder(11, 12);
-//		elevatorEncoder = new Encoder(13, 14);
+		elevatorPot = new AnalogInput(0);
 		
 		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 600, 46.8, "Front Left");
 		
@@ -108,9 +111,9 @@ public class RobotMap {
 
 		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 128, 292.65, "Back Right");
 		
-		elevator = new Elevator(liftMotor, elevatorEncoder);
+		elevator = new Elevator(liftMotor, elevatorPot);
 		
-		intake = new Intake(leftArmMotor, rightArmMotor);
+		intake = new Intake(leftArmMotor, rightArmMotor, flipMotor);
 		
 	}
 }
