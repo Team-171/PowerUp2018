@@ -7,6 +7,7 @@ import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightScale;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeRightSwitch;
 import org.usfirst.frc.team171.Autonomous.Actions.PlatformClearRight;
 import org.usfirst.frc.team171.Autonomous.SetStartingPosition.SetPositionRight;
+import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.commands.FlippyDowny;
 import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
 import org.usfirst.frc.team171.robot.commands.ResetGyro;
@@ -23,12 +24,14 @@ public class StartFromRight extends CommandGroup {
 
 	public StartFromRight() {
 
+		
+		message = Robot.getGSM();
+		
 		addSequential(new JoystickEnabled(false));
 		addParallel(new FlippyDowny(1));
 		addSequential(new ResetGyro());
 		addSequential(new SetPositionRight());
-		message = DriverStation.getInstance().getGameSpecificMessage();
-
+				
 		if (message.length() > 0) {
 			if (message.charAt(0) == 'R') {
 				addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.SIDE));
@@ -56,6 +59,10 @@ public class StartFromRight extends CommandGroup {
 				addSequential(new PickUpCube(2));
 				addSequential(new PlaceCubeLeftScale());
 			}
+		}
+		else
+		{
+			addSequential(new DriveStraightLeft());
 		}
 
 	}

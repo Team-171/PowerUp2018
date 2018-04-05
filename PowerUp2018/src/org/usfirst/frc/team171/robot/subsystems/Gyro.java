@@ -107,7 +107,7 @@ public class Gyro extends Subsystem {
 
 	public void updateStatus() {
 		SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
-		SmartDashboard.putNumber("Gyro Target Angle", GetTargetAngle());
+//		SmartDashboard.putNumber("Gyro Target Angle", GetTargetAngle());
 //		SmartDashboard.putNumber("Gyro Error", getTargetYawComp());
 //		SmartDashboard.putNumber("Gyro Target Error", getTargetError());
 //		SmartDashboard.putNumber("Unit Circle Angle", getUnitCircleAngle());

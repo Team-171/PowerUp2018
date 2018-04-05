@@ -132,7 +132,7 @@ public class DriveTrain extends Subsystem {
 
 		// SmartDashboard.putNumber("error",
 		// RobotMap.leftFrontSwerve.PIDController.getPIDController().get());
-		SmartDashboard.putNumber("Target Angle", (Math.atan2(b, c) * 180 / Math.PI));
+//		SmartDashboard.putNumber("Target Angle", (Math.atan2(b, c) * 180 / Math.PI));
 	}
 
 	public void driveSwervePolar(double angle, double magnitude, double rotation) {
@@ -183,25 +183,25 @@ public class DriveTrain extends Subsystem {
 		// RobotMap.rightBackSwerve.fieldX + ", Y: " +
 		// RobotMap.rightBackSwerve.fieldY);
 		//
-		Robot.table.putNumber("Front Left Position X", RobotMap.leftFrontSwerve.fieldX);
-		Robot.table.putNumber("Front Left Position Y", RobotMap.leftFrontSwerve.fieldY);
-
-		Robot.table.putNumber("Back Left Position X", RobotMap.leftBackSwerve.fieldX);
-		Robot.table.putNumber("Back Left Position Y", RobotMap.leftBackSwerve.fieldY);
-
-		Robot.table.putNumber("Front Right Position X", RobotMap.rightFrontSwerve.fieldX);
-		Robot.table.putNumber("Front Right Position Y", RobotMap.rightFrontSwerve.fieldY);
-
-		Robot.table.putNumber("Back Right Position X", RobotMap.rightBackSwerve.fieldX);
-		Robot.table.putNumber("Back Right Position Y", RobotMap.rightBackSwerve.fieldY);
+//		Robot.table.putNumber("Front Left Position X", RobotMap.leftFrontSwerve.fieldX);
+//		Robot.table.putNumber("Front Left Position Y", RobotMap.leftFrontSwerve.fieldY);
+//
+//		Robot.table.putNumber("Back Left Position X", RobotMap.leftBackSwerve.fieldX);
+//		Robot.table.putNumber("Back Left Position Y", RobotMap.leftBackSwerve.fieldY);
+//
+//		Robot.table.putNumber("Front Right Position X", RobotMap.rightFrontSwerve.fieldX);
+//		Robot.table.putNumber("Front Right Position Y", RobotMap.rightFrontSwerve.fieldY);
+//
+//		Robot.table.putNumber("Back Right Position X", RobotMap.rightBackSwerve.fieldX);
+//		Robot.table.putNumber("Back Right Position Y", RobotMap.rightBackSwerve.fieldY);
 
 		SmartDashboard.putNumber("Robot Position X", robotPosition()[0]);
 		SmartDashboard.putNumber("Robot Position Y", robotPosition()[1]);
 
-		SmartDashboard.putNumber("Front Left Error", RobotMap.leftFrontSwerve.PIDController.getError());
-		SmartDashboard.putNumber("Back Left Error", RobotMap.leftBackSwerve.PIDController.getError());
-		SmartDashboard.putNumber("Front Right Error", RobotMap.rightFrontSwerve.PIDController.getError());
-		SmartDashboard.putNumber("Back Right Error", RobotMap.rightBackSwerve.PIDController.getError());
+//		SmartDashboard.putNumber("Front Left Error", RobotMap.leftFrontSwerve.PIDController.getError());
+//		SmartDashboard.putNumber("Back Left Error", RobotMap.leftBackSwerve.PIDController.getError());
+//		SmartDashboard.putNumber("Front Right Error", RobotMap.rightFrontSwerve.PIDController.getError());
+//		SmartDashboard.putNumber("Back Right Error", RobotMap.rightBackSwerve.PIDController.getError());
 
 		// SmartDashboard.putNumber("Encoder",
 		// RobotMap.leftFrontSwerve.driveEncoder.get());

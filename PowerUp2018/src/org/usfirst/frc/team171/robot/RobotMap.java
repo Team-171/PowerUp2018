@@ -12,9 +12,12 @@ import org.usfirst.frc.team171.RobotParts.SwerveModule;
 import org.usfirst.frc.team171.robot.subsystems.Elevator;
 import org.usfirst.frc.team171.robot.subsystems.Intake;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 
 /**
@@ -33,10 +36,10 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	public static PWMTalonSRX driveLeftFrontMotor;
-	public static PWMTalonSRX driveLeftBackMotor;
-	public static PWMTalonSRX driveRightFrontMotor;
-	public static PWMTalonSRX driveRightBackMotor;
+	public static TalonSRX driveLeftFrontMotor;
+	public static TalonSRX driveLeftBackMotor;
+	public static TalonSRX driveRightFrontMotor;
+	public static TalonSRX driveRightBackMotor;
 	
 	public static PWMTalonSRX driveLeftFrontDirMotor;
 	public static PWMTalonSRX driveLeftBackDirMotor;
@@ -69,28 +72,30 @@ public class RobotMap {
 	
 	public static Intake intake;
 	
+	public static Solenoid shifter;
+	
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
 	// public static int rightMotor = 2;
 
 	
-	public static void init(){
-		driveLeftFrontMotor = new PWMTalonSRX(0);
-		driveLeftBackMotor = new PWMTalonSRX(3);
-		driveRightFrontMotor = new PWMTalonSRX(4);
-		driveRightBackMotor = new PWMTalonSRX(7);
+	public static void init(){		
+		driveLeftFrontMotor = new TalonSRX(0);
+		driveLeftBackMotor = new TalonSRX(1);
+		driveRightFrontMotor = new TalonSRX(2);
+		driveRightBackMotor = new TalonSRX(3);
 				
 		driveLeftFrontDirMotor = new PWMTalonSRX(1);
 		driveLeftBackDirMotor = new PWMTalonSRX(2);
 		driveRightFrontDirMotor = new PWMTalonSRX(5);
 		driveRightBackDirMotor = new PWMTalonSRX(6);
 		
-		liftMotor = new PWMTalonSRX(13);
+		leftArmMotor = new PWMTalonSRX(15);
+		rightArmMotor = new PWMTalonSRX(16);
 		
-		leftArmMotor = new PWMTalonSRX(14);
-		rightArmMotor = new PWMTalonSRX(15);
-		flipMotor = new PWMTalonSRX(16);
+		liftMotor = new PWMTalonSRX(13);
+		flipMotor = new PWMTalonSRX(14);
 		
 		leftFrontDirEncoder = new AbsoluteEncoder(0);
 		leftBackDirEncoder = new AbsoluteEncoder(3);
@@ -103,13 +108,15 @@ public class RobotMap {
 		rightBackEncoder = new Encoder(11, 12);
 		elevatorPot = new AnalogInput(0);
 		
-		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 600, 46.8, "Front Left");
+		shifter = new Solenoid(4);
 		
-		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 600, 153.22, "Back Left");
+		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 256, 78.8, "Front Left");
 		
-		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 128, 9.75, "Front Right");
+		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 128, 287., "Back Left");
+		
+		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 128, 347, "Front Right");
 
-		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 128, 292.65, "Back Right");
+		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 256, 69.9, "Back Right");
 		
 		elevator = new Elevator(liftMotor, elevatorPot);
 		

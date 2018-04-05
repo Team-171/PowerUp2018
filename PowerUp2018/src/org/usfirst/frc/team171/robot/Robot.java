@@ -23,8 +23,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import org.usfirst.frc.team171.Autonomous.DoNothing;
 import org.usfirst.frc.team171.Autonomous.DriveStraightLeft;
+import org.usfirst.frc.team171.Autonomous.DriveStraightLeftt;
 import org.usfirst.frc.team171.Autonomous.DriveStraightRight;
 import org.usfirst.frc.team171.Autonomous.StartFromLeft;
 import org.usfirst.frc.team171.Autonomous.StartFromMiddle;
@@ -35,7 +38,6 @@ import org.usfirst.frc.team171.robot.subsystems.Gyro;
 import org.usfirst.frc.team171.robot.subsystems.JeVois;
 
 import com.kauailabs.navx.frc.AHRS;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -52,8 +54,7 @@ public class Robot extends TimedRobot {
 	public static Preferences prefs;
 	public static boolean joystickRunning = true;
 	public static edu.wpi.first.wpilibj.networktables.NetworkTable table;
-	
-	
+
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -65,7 +66,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		try {
 			imu = new AHRS(SPI.Port.kMXP);
-//			imu = new AHRS(SerialPort.Port.kUSB1);
+			// imu = new AHRS(SerialPort.Port.kUSB1);
 			imu.setPIDSourceType(PIDSourceType.kDisplacement);
 
 		} catch (Exception ex) {
@@ -91,12 +92,12 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		prefs = Preferences.getInstance();
-				
-        RobotMap.leftFrontSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
-		RobotMap.leftBackSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
-		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
-		RobotMap.rightBackSwerve.PIDController.setPIDF(0.015, 0.001, 0, 0);
-		
+
+		RobotMap.leftFrontSwerve.PIDController.setPIDF(0.015, 0.003, 0.002, 0.00);
+		RobotMap.leftBackSwerve.PIDController.setPIDF(0.015, 0.003, 0.002, 0.00);
+		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.009, 0.001, 0.002, 0.00);
+		RobotMap.rightBackSwerve.PIDController.setPIDF(0.015, 0.003, 0.002, 0.00);
+
 		table = edu.wpi.first.wpilibj.networktables.NetworkTable.getTable("subWaypoint");
 	}
 
@@ -125,14 +126,15 @@ public class Robot extends TimedRobot {
 	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
 	 * getString code to get the auto name from the text box below the Gyro
 	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
+	 * <p>
+	 * You can add additional auto modes by adding additional commands to the
 	 * chooser code above (like the commented example) or additional comparisons
 	 * to the switch structure below with additional strings & commands.
 	 */
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
-
+		RobotMap.shifter.set(true);
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -140,6 +142,7 @@ public class Robot extends TimedRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 
+		// new DriveStraightLeft().start();
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
@@ -152,6 +155,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putBoolean("Auto Running", m_autonomousCommand.isRunning());
+		SmartDashboard.putString("Auto Name", m_autonomousCommand.getName());
 		updateStatus();
 	}
 
@@ -164,24 +169,29 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-		
+
 		joystickRunning = true;
-				
-//		RobotMap.leftFrontSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
-//		RobotMap.leftBackSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
-//		RobotMap.rightFrontSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
-//		RobotMap.rightBackSwerve.PIDController.setPIDF(prefs.getDouble("P", 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
-//		RobotMap.driveLeftFrontDirMotor.set(-1);
-		
-//		RobotMap.leftFrontSwerve.PIDController.disable();
-//		RobotMap.leftBackSwerve.PIDController.disable();
-//		RobotMap.rightFrontSwerve.PIDController.disable();
-//		RobotMap.rightBackSwerve.PIDController.disable();
+
+		// RobotMap.leftFrontSwerve.PIDController.setPIDF(prefs.getDouble("P",
+		// 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
+		// RobotMap.leftBackSwerve.PIDController.setPIDF(prefs.getDouble("P",
+		// 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
+		// RobotMap.rightFrontSwerve.PIDController.setPIDF(prefs.getDouble("P",
+		// 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
+		// RobotMap.rightBackSwerve.PIDController.setPIDF(prefs.getDouble("P",
+		// 0), prefs.getDouble("I", 0), prefs.getDouble("D", 0), 0);
+		// RobotMap.driveLeftFrontDirMotor.set(-1);
+
+		// RobotMap.leftFrontSwerve.PIDController.disable();
+		// RobotMap.leftBackSwerve.PIDController.disable();
+		// RobotMap.rightFrontSwerve.PIDController.disable();
+		// RobotMap.rightBackSwerve.PIDController.disable();
 		gyro.resetGyro();
 		gyro.setTargetAngle(gyro.getGyroAngle());
-		new SetRobotPosition(0, 0).start();
-		
-//		new SetRobotPosition(0, 20).start();
+		// new SetRobotPosition(0, 0).start();
+		RobotMap.shifter.set(true);
+
+		// new SetRobotPosition(0, 20).start();
 	}
 
 	/**
@@ -191,11 +201,11 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateStatus();
-		
-//		RobotMap.driveLeftFrontDirMotor.set(oi.gamepad.getY());
-//		RobotMap.driveLeftBackDirMotor.set(oi.gamepad.getY());
-//		RobotMap.driveRightFrontDirMotor.set(oi.gamepad.getY());
-//		RobotMap.driveRightBackDirMotor.set(oi.gamepad.getY());
+		joystickRunning = true;
+		// RobotMap.driveLeftFrontDirMotor.set(oi.gamepad.getY());
+		// RobotMap.driveLeftBackDirMotor.set(oi.gamepad.getY());
+		// RobotMap.driveRightFrontDirMotor.set(oi.gamepad.getY());
+		// RobotMap.driveRightBackDirMotor.set(oi.gamepad.getY());
 	}
 
 	/**
@@ -205,22 +215,73 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 	}
 	
-	public void updateStatus(){
-//		SmartDashboard.putNumber("encoder", RobotMap.leftFrontDirEncoder.getAngle());
+	public static String getGSM(){
+		String message;
+		
+		do{
+			message = DriverStation.getInstance().getGameSpecificMessage();
+			
+			if(message==null)
+			{
+				message = "";
+			}
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException ex) {
+			}
+		}while(message.isEmpty());
+		
+		return message;
+	}
+
+	public void updateStatus() {
+		// SmartDashboard.putNumber("encoder",
+		// RobotMap.leftFrontDirEncoder.getAngle());
 		gyro.updateStatus();
 		driveTrain.updateStatus();
+		RobotMap.elevator.updateStatus();
 
-		SmartDashboard.putNumber("Front Left Angle", RobotMap.leftFrontSwerve.directionEncoder.getAngle());
-		SmartDashboard.putNumber("Back Left Angle", RobotMap.leftBackSwerve.directionEncoder.getAngle());
-		SmartDashboard.putNumber("Front Right Angle", RobotMap.rightFrontSwerve.directionEncoder.getAngle());
-		SmartDashboard.putNumber("Back Right Angle", RobotMap.rightBackSwerve.directionEncoder.getAngle());
-		SmartDashboard.putNumber("Encoder Front", RobotMap.rightFrontEncoder.get());
-		SmartDashboard.putNumber("Encoder Back", RobotMap.rightBackEncoder.get());
-		SmartDashboard.putNumber("Displacement", imu.getVelocityX());
-//		SmartDashboard.putBoolean("Rotating", driveTrain.rotating);
-//		
-//		SmartDashboard.putNumber("Left Front Encoder", RobotMap.leftFrontSwerve.driveEncoder.get());
-//		
-//		SmartDashboard.putNumber("Angle Number", gyro.getAngleError(270));
+		SmartDashboard.putNumberArray("Swerve Angles: Left",
+				new double[] { RobotMap.leftFrontSwerve.directionEncoder.getAngle(),
+						RobotMap.leftBackSwerve.directionEncoder.getAngle() });
+		
+		SmartDashboard.putNumberArray("Swerve Angles: Right",
+				new double[] { RobotMap.rightFrontSwerve.directionEncoder.getAngle(),
+						RobotMap.rightBackSwerve.directionEncoder.getAngle() });
+		 
+
+		SmartDashboard.putNumberArray("Encoders", new double[] { RobotMap.leftFrontEncoder.get(),
+				RobotMap.leftBackEncoder.get(), RobotMap.rightFrontEncoder.get(), RobotMap.rightBackEncoder.get() });
+
+		// SmartDashboard.putNumber("Front Left Angle",
+		// RobotMap.leftFrontSwerve.directionEncoder.getAngle());
+		// SmartDashboard.putNumber("Back Left Angle",
+		// RobotMap.leftBackSwerve.directionEncoder.getAngle());
+		// SmartDashboard.putNumber("Front Right Angle",
+		// RobotMap.rightFrontSwerve.directionEncoder.getAngle());
+		// SmartDashboard.putNumber("Back Right Angle",
+		// RobotMap.rightBackSwerve.directionEncoder.getAngle());
+		//
+		// SmartDashboard.putNumber("Encoder Front Left",
+		// RobotMap.leftFrontEncoder.get());
+		// SmartDashboard.putNumber("Encoder Back Left",
+		// RobotMap.leftBackEncoder.get());
+		//
+		// SmartDashboard.putNumber("Encoder Front Right",
+		// RobotMap.rightFrontEncoder.get());
+		// SmartDashboard.putNumber("Encoder Back Right",
+		// RobotMap.rightBackEncoder.get());
+
+		SmartDashboard.putNumber("elevator", RobotMap.elevator.getElevatorPosition());
+
+		// SmartDashboard.putNumber("Displacement", imu.getVelocityX());
+
+		// SmartDashboard.putBoolean("Rotating", driveTrain.rotating);
+		//
+		// SmartDashboard.putNumber("Left Front Encoder",
+		// RobotMap.leftFrontSwerve.driveEncoder.get());
+		//
+		// SmartDashboard.putNumber("Angle Number", gyro.getAngleError(270));
 	}
 }

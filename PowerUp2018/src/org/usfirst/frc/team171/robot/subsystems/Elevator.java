@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -22,11 +23,12 @@ public class Elevator extends Subsystem {
 	private double moveSpeed = .25;
 	public PositionElevator elevatorPID;
 	public boolean limitReached;
+	private int maxTravel = 52;
 
 	public Elevator(PWMTalonSRX liftMotor, AnalogInput liftPot) {
 		this.elevatorPID = new PositionElevator(this);
 		this.m_liftMotor = liftMotor;
-		this.m_liftPot = new AnalogPotentiometer(liftPot, 48);
+		this.m_liftPot = new AnalogPotentiometer(liftPot, maxTravel, 2.9);
 	}
 
 	public void initDefaultCommand() {
@@ -37,7 +39,7 @@ public class Elevator extends Subsystem {
 	public double getElevatorPosition() {
 		// TODO: add elevator control logic
 
-		return this.m_liftPot.get();// 0;// m_liftEncoder.get();
+		return maxTravel - this.m_liftPot.get();// 0;// m_liftEncoder.get();
 	}
 
 //	public void resetEncoder() {
@@ -57,15 +59,19 @@ public class Elevator extends Subsystem {
 
 	public void moveElevatorManual(double speed) {
 
-		if (speed > 0) {
-			elevatorPID.disable();
+		if (Math.abs(speed) > 0) {
+//			elevatorPID.disable();
 			this.moveElevator(speed);
-		} else {
-			if (!elevatorPID.getPIDController().isEnabled()) {
-				elevatorPID.setSetpoint(this.getElevatorPosition());
-				elevatorPID.enable();
-			}
-
-		}
+		} //else {
+//			if (!elevatorPID.getPIDController().isEnabled()) {
+//				elevatorPID.setSetpoint(this.getElevatorPosition());
+//				elevatorPID.enable();
+//			}
+//
+//		}
+	}
+	
+	public void updateStatus(){
+		SmartDashboard.putNumber("Elevator Speed", this.m_liftMotor.get());
 	}
 }

@@ -4,6 +4,9 @@ import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.PIDsubsystems.PositionWheel;
 import org.usfirst.frc.team171.robot.subsystems.Gyro;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.Timer;
@@ -11,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
-	public PWMTalonSRX driveMotor;
+	public TalonSRX driveMotor;
 	public Encoder driveEncoder;
 	public PWMTalonSRX directionMotor;
 	public AbsoluteEncoder directionEncoder;
@@ -36,7 +39,7 @@ public class SwerveModule {
 	private String name;
 	private double time = 0;
 
-	public SwerveModule(PWMTalonSRX drive, Encoder driveEnc, PWMTalonSRX dir, AbsoluteEncoder dirEnc, int countsPerRev, double forwardAng, String name) {
+	public SwerveModule(TalonSRX drive, Encoder driveEnc, PWMTalonSRX dir, AbsoluteEncoder dirEnc, int countsPerRev, double forwardAng, String name) {
 		this.driveMotor = drive;
 		this.driveEncoder = driveEnc;
 		this.directionMotor = dir;
@@ -45,6 +48,14 @@ public class SwerveModule {
 		this.forwardAngle = forwardAng;
 		this.countsPerRev = countsPerRev;
 		this.name = name;
+		
+		/* The following java example limits the current to 10 amps whenever the current has exceeded 15 amps for 100 Ms */
+		this.driveMotor.configContinuousCurrentLimit(50, 0);
+		this.driveMotor.configPeakCurrentLimit(75, 0);
+		this.driveMotor.configPeakCurrentDuration(100, 0);
+		this.driveMotor.enableCurrentLimit(true);
+		
+		this.driveMotor.configOpenloopRamp(1, 0);
 
 		lastAngle = directionEncoder.getAngle();
 		lastEncoderReading = lastCalculatedEncoderCount = driveEncoder.get();
@@ -94,7 +105,7 @@ public class SwerveModule {
 			
 			double fieldAngle = Gyro.normalizeAngle(currentAngle + Robot.gyro.getGyroAngle());
 			
-			SmartDashboard.putNumber("Field Angle " + this.name, fieldAngle);
+//			SmartDashboard.putNumber("Field Angle " + this.name, fieldAngle);
 			
 			fieldX += Math.cos(Math.toRadians(Gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));// (calculatedEncoderCount - lastCalculatedEncoderCount);
 			fieldY += Math.sin(Math.toRadians(Gyro.toUnitCircleAngle(fieldAngle))) * ((((calculatedEncoderCount - lastCalculatedEncoderCount) / countsPerRev) / wheelToEncoderRatio) * (Math.PI * wheelSize));
@@ -139,9 +150,11 @@ public class SwerveModule {
 		if (reversed) {
 			targetSpeed = -targetSpeed;
 		}
+		
+		targetSpeed *= 0.8;
 
 		speed = targetSpeed;
-		driveMotor.set(targetSpeed);
+		driveMotor.set(ControlMode.PercentOutput, targetSpeed);
 	}
 
 	public void setAngle(double targetAngle, boolean angleOptimization) {

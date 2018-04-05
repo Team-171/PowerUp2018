@@ -24,11 +24,12 @@ public class PositionElevator extends PIDSubsystem {
         //                  to
         // enable() - Enables the PID controller.
 
-		getPIDController().setInputRange(0, 100); //Todo: Set range to inches
-		getPIDController().setContinuous();
+		getPIDController().setInputRange(0, 40); //Todo: Set range to inches
+//		getPIDController().setContinuous();
 		getPIDController().setPercentTolerance(1);
 		getPIDController().setOutputRange(-.75, .75);
-    	enable();
+		disable();
+//    	enable();
     }
 
     public void initDefaultCommand() {
@@ -46,6 +47,6 @@ public class PositionElevator extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
-    	m_elevator.moveElevator(output);
+//    	m_elevator.moveElevator(output);
     }
 }

@@ -20,6 +20,7 @@ public class Intake extends Subsystem {
 	public Intake(PWMTalonSRX leftArm, PWMTalonSRX rightArm, PWMTalonSRX flipMotor) {
 		this.m_leftArm = leftArm;
 		this.m_rightArm = rightArm;
+		this.m_flipMotor = flipMotor;
 	}
 
     public void initDefaultCommand() {

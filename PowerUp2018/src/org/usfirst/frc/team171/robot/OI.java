@@ -12,6 +12,7 @@ import org.usfirst.frc.team171.Autonomous.SubWaypoint;
 import org.usfirst.frc.team171.Autonomous.WayPoint;
 import org.usfirst.frc.team171.RobotMotion.SetIntakeSpeed;
 import org.usfirst.frc.team171.robot.commands.NoDriveMode;
+import org.usfirst.frc.team171.robot.commands.ResetGyro;
 import org.usfirst.frc.team171.robot.commands.SetFieldOriented;
 import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
 import org.usfirst.frc.team171.robot.commands.SwerveCalibrationMode;
@@ -33,6 +34,7 @@ public class OI {
 	public static JoystickButton testPosition;
 	public static JoystickButton elevatorDown;
 	public static JoystickButton elevatorUp;
+	public static JoystickButton resetGyro;
 	
 	public OI(){
 		gamepad = new Joystick(0);
@@ -42,9 +44,13 @@ public class OI {
 		fieldOriented.whenPressed(new SetFieldOriented(false));
 		fieldOriented.whenReleased(new SetFieldOriented(true));
 		
-		testPosition = new JoystickButton(gamepad, 6);
+		resetGyro = new JoystickButton(gamepad, 6);
+	    resetGyro.whenPressed(new ResetGyro());
+		
+		
+//		testPosition = new JoystickButton(gamepad, 6);
 //		testPosition.whenPressed(new SetRobotPosition(0, 0));
-		testPosition.whenPressed(new StartFromLeft());
+//		testPosition.whenPressed(new StartFromLeft());
 //		testPosition.whenReleased(new WayPoint(60, 100, 0, .4));
 		
 //		noDriveMode = new JoystickButton(gamepad, 5);

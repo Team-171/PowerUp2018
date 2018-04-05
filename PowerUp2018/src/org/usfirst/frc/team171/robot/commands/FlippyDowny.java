@@ -17,7 +17,7 @@ public class FlippyDowny extends TimedCommand {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		RobotMap.intake.runFlipMotor(1);
+//		RobotMap.intake.runFlipMotor(1);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -26,7 +26,7 @@ public class FlippyDowny extends TimedCommand {
 
 	// Called once after timeout
 	protected void end() {
-		RobotMap.intake.runFlipMotor(0);
+//		RobotMap.intake.runFlipMotor(0);
 	}
 
 	// Called when another command which requires one or more of the same
