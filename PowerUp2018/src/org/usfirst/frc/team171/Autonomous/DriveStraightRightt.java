@@ -3,6 +3,7 @@ package org.usfirst.frc.team171.Autonomous;
 import org.usfirst.frc.team171.Autonomous.Actions.PickUpCube;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeLeftScale;
 import org.usfirst.frc.team171.Autonomous.Actions.PlaceCubeLeftSwitch;
+import org.usfirst.frc.team171.Autonomous.Actions.WayPoint;
 import org.usfirst.frc.team171.Autonomous.SetStartingPosition.SetPositionRight;
 import org.usfirst.frc.team171.robot.commands.JoystickEnabled;
 

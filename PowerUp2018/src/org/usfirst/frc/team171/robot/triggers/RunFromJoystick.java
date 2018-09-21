@@ -22,14 +22,36 @@ public class RunFromJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double deadband = .2;
+    	double deadband = .3;
     	
     	if(Robot.joystickRunning){
-    		Robot.driveTrain.driveSwerve(getOutput(deadband, 0.99, Robot.oi.gamepad.getX()), getOutput(deadband, 0.99, -Robot.oi.gamepad.getY()), getOutput(deadband, 0.99, Robot.oi.gamepad.getRawAxis(4)));
-//    		RobotMap.elevator.moveElevatorManual(Robot.oi.gamepad.getRawAxis(2) - Robot.oi.gamepad.getRawAxis(3));
-    		RobotMap.elevator.moveElevatorManual(getOutput(deadband, 0.99, -Robot.oi.operator_gamepad.getRawAxis(5)));
-    		RobotMap.intake.runIntake(getOutput(deadband, 0.99, (Robot.oi.operator_gamepad.getRawAxis(2) - Robot.oi.operator_gamepad.getRawAxis(3)) * 2), getOutput(deadband, 0.99, (Robot.oi.operator_gamepad.getRawAxis(2) - Robot.oi.operator_gamepad.getRawAxis(3)) * 2));
-    		RobotMap.intake.runFlipMotor(getOutput(deadband, 0.99, Robot.oi.operator_gamepad.getY()));
+    		
+    		
+    		if(Robot.oneController)
+    		{
+        		Robot.elevator.moveElevatorManual(getOutput(deadband, 0.99, Robot.oi.gamepad.getRawAxis(2) - Robot.oi.gamepad.getRawAxis(3)));
+    			if(Robot.oi.gamepad.getRawButton(6))
+    			{
+    				Robot.driveTrain.driveSwerve(getOutput(deadband, 0.99, Robot.oi.gamepad.getX()), getOutput(deadband, 0.99, -Robot.oi.gamepad.getY()), 0);
+    				Robot.intake.runIntakeControlled(Robot.oi.gamepad);
+    			}
+    			else
+    			{
+    				Robot.driveTrain.driveSwerve(getOutput(deadband, 0.99, Robot.oi.gamepad.getX()), getOutput(deadband, 0.99, -Robot.oi.gamepad.getY()), getOutput(deadband, 0.99, Robot.oi.gamepad.getRawAxis(4)));
+    				Robot.intake.runIntake(0);
+    			}
+    		}
+    		else
+    		{
+    			Robot.driveTrain.driveSwerve(getOutput(deadband, 0.99, Robot.oi.gamepad.getX()), getOutput(deadband, 0.99, -Robot.oi.gamepad.getY()), getOutput(deadband, 0.99, Robot.oi.gamepad.getRawAxis(4)));
+        		Robot.elevator.moveElevatorManual(getOutput(deadband, 0.99, -Robot.oi.operator_gamepad.getY()));
+        		Robot.intake.runIntakeControlled(Robot.oi.operator_gamepad);
+//        		Robot.intake.runIntake(getOutput(deadband, 0.99, (Robot.oi.operator_gamepad.getRawAxis(2) - Robot.oi.operator_gamepad.getRawAxis(3)) * 2), getOutput(deadband, 0.99, (Robot.oi.operator_gamepad.getRawAxis(2) - Robot.oi.operator_gamepad.getRawAxis(3)) * 2));
+//        		Robot.intake.runFlipMotor(getOutput(deadband, 0.99, (Robot.oi.operator_gamepad.getRawAxis(2) - Robot.oi.operator_gamepad.getRawAxis(3)) * 2));
+    		}
+    		
+    		
+    		SmartDashboard.putNumber("VALUE", -Robot.oi.operator_gamepad.getRawAxis(5));
     	}
     	
 //    	SmartDashboard.putNumber("X", getOutput(deadband, 1, Robot.oi.gamepad.getX()));
@@ -52,7 +74,7 @@ public class RunFromJoystick extends Command {
     protected void interrupted() {
     }
     
-    public double getOutput(double deadband, double maxOutput, double axis) {
+    public static double getOutput(double deadband, double maxOutput, double axis) {
 		double output;
 		if (Math.abs(axis) < deadband) {
 			output = 0;

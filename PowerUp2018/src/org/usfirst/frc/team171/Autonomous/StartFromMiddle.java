@@ -21,46 +21,47 @@ public class StartFromMiddle extends CommandGroup {
 	String message;
 
 	public StartFromMiddle() {
+		
+		message = DriverStation.getInstance().getGameSpecificMessage();
 
 		addParallel(new JoystickEnabled(false));
 		addParallel(new FlippyDowny(1));
 		addSequential(new ResetGyro());
 		addSequential(new SetPositionMiddle());
-		message = DriverStation.getInstance().getGameSpecificMessage();
 
 		if (message.length() > 0) {
 			// This first if statement goes to whichever side of the switch is
 			// ours and dumps the cube
 			if (message.charAt(0) == 'L') {
-				addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.SIDE));
-				addSequential(new PickUpCube(1));
+				addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.FRONT));
+//				addSequential(new PickUpCube(1));
 
 				// Check to see if scale is on our side. If not, we pile cubes
 				// on the switch
-				if (message.charAt(1) == 'L') {
-					addSequential(new PlaceCubeLeftScale());
-					addSequential(new PickUpCube(2));
-					addSequential(new PlaceCubeLeftScale());
-				} else {
-					addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
-					addSequential(new PickUpCube(2));
-					addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
-				}
+//				if (message.charAt(1) == 'L') {
+//					addSequential(new PlaceCubeLeftScale());
+//					addSequential(new PickUpCube(2));
+//					addSequential(new PlaceCubeLeftScale());
+//				} else {
+//					addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
+//					addSequential(new PickUpCube(2));
+//					addSequential(new PlaceCubeLeftSwitch(PlaceCubeLeftSwitch.Direction.BACK));
+//				}
 			} else {
-				addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.SIDE));
-				addSequential(new PickUpCube(6));
+				addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.FRONT));
+//				addSequential(new PickUpCube(6));
 
 				// Check to see if scale is on our side. If not, we pile cubes
 				// on the switch
-				if (message.charAt(1) == 'R') {
-					addSequential(new PlaceCubeRightScale());
-					addSequential(new PickUpCube(5));
-					addSequential(new PlaceCubeRightScale());
-				} else {
-					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
-					addSequential(new PickUpCube(5));
-					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
-				}
+//				if (message.charAt(1) == 'R') {
+//					addSequential(new PlaceCubeRightScale());
+//					addSequential(new PickUpCube(5));
+//					addSequential(new PlaceCubeRightScale());
+//				} else {
+//					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
+//					addSequential(new PickUpCube(5));
+//					addSequential(new PlaceCubeRightSwitch(PlaceCubeRightSwitch.Direction.BACK));
+//				}
 			}
 		}
 

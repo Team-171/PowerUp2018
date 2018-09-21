@@ -1,6 +1,5 @@
 package org.usfirst.frc.team171.Autonomous.Actions;
 
-import org.usfirst.frc.team171.Autonomous.WayPoint;
 import org.usfirst.frc.team171.RobotMotion.SetIntakeSpeed;
 import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.commands.SetIntake;

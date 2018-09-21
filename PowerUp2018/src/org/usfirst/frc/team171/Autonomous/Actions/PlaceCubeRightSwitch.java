@@ -1,6 +1,5 @@
 package org.usfirst.frc.team171.Autonomous.Actions;
 
-import org.usfirst.frc.team171.Autonomous.WayPoint;
 import org.usfirst.frc.team171.RobotMotion.SetElevatorPosition;
 import org.usfirst.frc.team171.robot.commands.SetIntake;
 import org.usfirst.frc.team171.robot.commands.TimeDelay;
@@ -24,7 +23,10 @@ public class PlaceCubeRightSwitch extends CommandGroup {
     	addParallel(new SetElevatorPosition(10));
     	switch (direction) {
     	case FRONT:
-    		
+    		addSequential(new WayPoint(215, 120, 0, 0.6), 5);
+    		addSequential(new SetIntake(null, -0.75));
+    		addSequential(new TimeDelay(0.5));
+    		addSequential(new SetIntake(null, 0));
     		break;
     		
     	case SIDE:

@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
-	public TalonSRX driveMotor;
-	public Encoder driveEncoder;
-	public PWMTalonSRX directionMotor;
-	public AbsoluteEncoder directionEncoder;
+	private TalonSRX driveMotor;
+	private Encoder driveEncoder;
+	private PWMTalonSRX directionMotor;
+	private AbsoluteEncoder directionEncoder;
 	public double speed;
 	public double angle;
-	public PositionWheel PIDController;
+	private PositionWheel PIDController;
 	public double fieldX = 0.0;
 	public double fieldY = 0.0;
 	public double forwardAngle = 0;
@@ -55,7 +55,7 @@ public class SwerveModule {
 		this.driveMotor.configPeakCurrentDuration(100, 0);
 		this.driveMotor.enableCurrentLimit(true);
 		
-		this.driveMotor.configOpenloopRamp(1, 0);
+		this.driveMotor.configOpenloopRamp(0.1, 0);
 
 		lastAngle = directionEncoder.getAngle();
 		lastEncoderReading = lastCalculatedEncoderCount = driveEncoder.get();
@@ -114,7 +114,7 @@ public class SwerveModule {
 			lastAngle = currentAngle;
 			lastEncoderReading = driveEncoder.get();
 			lastCalculatedEncoderCount = calculatedEncoderCount;
-			SmartDashboard.putNumber("Delta Time" + this.name, Timer.getFPGATimestamp() - time);
+//			SmartDashboard.putNumber("Delta Time" + this.name, Timer.getFPGATimestamp() - time);
 			time = Timer.getFPGATimestamp();
 
 			try {
@@ -151,7 +151,7 @@ public class SwerveModule {
 			targetSpeed = -targetSpeed;
 		}
 		
-		targetSpeed *= 0.8;
+//		targetSpeed *= 0.8;
 
 		speed = targetSpeed;
 		driveMotor.set(ControlMode.PercentOutput, targetSpeed);
@@ -193,5 +193,25 @@ public class SwerveModule {
 	public void setFieldXY(double m_fieldX, double m_fieldY){
 		this.fieldX = m_fieldX;
 		this.fieldY = m_fieldY;
+	}
+	
+	public TalonSRX getDriveMotor(){
+		return this.driveMotor;
+	}
+	
+	public PWMTalonSRX getDirMotor(){
+		return this.directionMotor;
+	}
+	
+	public AbsoluteEncoder getAbsEnc(){
+		return this.directionEncoder;
+	}
+	
+	public Encoder getDriveEnc(){
+		return this.driveEncoder;
+	}
+	
+	public PositionWheel getPID(){
+		return this.PIDController;
 	}
 }

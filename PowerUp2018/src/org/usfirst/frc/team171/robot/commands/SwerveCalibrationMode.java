@@ -19,10 +19,10 @@ public class SwerveCalibrationMode extends InstantCommand {
     // Called once when the command executes
     protected void initialize() {
     	Robot.joystickRunning = false;
-    	RobotMap.leftFrontSwerve.PIDController.disable();
-    	RobotMap.leftBackSwerve.PIDController.disable();
-    	RobotMap.rightFrontSwerve.PIDController.disable();
-    	RobotMap.rightBackSwerve.PIDController.disable();
+    	RobotMap.leftFrontSwerve.getPID().disable();
+    	RobotMap.leftBackSwerve.getPID().disable();
+    	RobotMap.rightFrontSwerve.getPID().disable();
+    	RobotMap.rightBackSwerve.getPID().disable();
     	
     	RobotMap.leftFrontSwerve.set(0, .1, false);
     	RobotMap.leftBackSwerve.set(0, .1, false);

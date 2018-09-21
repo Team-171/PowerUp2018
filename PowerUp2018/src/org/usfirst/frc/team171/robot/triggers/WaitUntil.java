@@ -21,7 +21,7 @@ public class WaitUntil {
 	public boolean inTolerance() {
 		return Math.abs(Robot.driveTrain.robotPosition()[0] - this.m_fieldX) < xTolerance
 				&& Math.abs(Robot.driveTrain.robotPosition()[1] - this.m_fieldY) < yTolerance
-				&& Math.abs(RobotMap.elevator.getElevatorPosition() - this.m_elevatorHeight) < elevatorTolerance;
+				&& Math.abs(Robot.elevator.getElevatorPosition() - this.m_elevatorHeight) < elevatorTolerance;
 	}
 	
 	public boolean xInTolerance() {
@@ -33,6 +33,6 @@ public class WaitUntil {
 	}
 	
 	public boolean elevatorInTolerance() {
-		return Math.abs(RobotMap.elevator.getElevatorPosition() - this.m_elevatorHeight) < elevatorTolerance;
+		return Math.abs(Robot.elevator.getElevatorPosition() - this.m_elevatorHeight) < elevatorTolerance;
 	}
 }

@@ -48,7 +48,7 @@ public class PositionWheel extends PIDSubsystem {
         // Return your input value for the PID loop
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return mModule.directionEncoder.getAngle();
+        return mModule.getAbsEnc().getAngle();
     }
     
     public double getError(){
@@ -81,7 +81,7 @@ public class PositionWheel extends PIDSubsystem {
 //    		output = -maxOutput;
 //    	}
     	
-    	mModule.directionMotor.set(output);
+    	mModule.getDirMotor().set(output);
 //    	SmartDashboard.putNumber("output", output);
     }
 }

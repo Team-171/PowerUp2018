@@ -1,7 +1,7 @@
 package org.usfirst.frc.team171.robot.commands;
 
-import java.awt.Robot;
 
+import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -18,7 +18,7 @@ public class CheckElevatorLimit extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
-    	requires(RobotMap.elevator);
+    	requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
@@ -28,7 +28,7 @@ public class CheckElevatorLimit extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	RobotMap.elevator.limitReached = capacativeSensor.get();
+    	Robot.elevator.limitReached = capacativeSensor.get();
     }
 
     // Make this return true when this Command no longer needs to run execute()

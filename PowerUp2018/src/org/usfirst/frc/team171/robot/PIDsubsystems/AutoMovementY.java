@@ -1,6 +1,6 @@
 package org.usfirst.frc.team171.robot.PIDsubsystems;
 
-import org.usfirst.frc.team171.Autonomous.SubWaypoint;
+import org.usfirst.frc.team171.Autonomous.Actions.WayPoint;
 import org.usfirst.frc.team171.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -32,7 +32,7 @@ public class AutoMovementY extends PIDSubsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 
-    public void setWaypoint(SubWaypoint wayPoint){
+    public void setWaypoint(WayPoint wayPoint){
     	setSetpoint(wayPoint.getTargetY());
     	setOutputRange(-wayPoint.getSpeed(), wayPoint.getSpeed());
 //    	SmartDashboard.putNumber("Y", this.getSetpoint());

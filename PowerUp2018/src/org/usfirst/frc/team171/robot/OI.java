@@ -8,8 +8,8 @@
 package org.usfirst.frc.team171.robot;
 
 import org.usfirst.frc.team171.Autonomous.StartFromLeft;
-import org.usfirst.frc.team171.Autonomous.SubWaypoint;
-import org.usfirst.frc.team171.Autonomous.WayPoint;
+import org.usfirst.frc.team171.Autonomous.Actions.WayPoint;
+import org.usfirst.frc.team171.RobotMotion.SetElevatorPosition;
 import org.usfirst.frc.team171.RobotMotion.SetIntakeSpeed;
 import org.usfirst.frc.team171.robot.commands.NoDriveMode;
 import org.usfirst.frc.team171.robot.commands.ResetGyro;
@@ -34,6 +34,7 @@ public class OI {
 	public static JoystickButton testPosition;
 	public static JoystickButton elevatorDown;
 	public static JoystickButton elevatorUp;
+	public static JoystickButton elevatorMiddle;
 	public static JoystickButton resetGyro;
 	
 	public OI(){
@@ -44,10 +45,32 @@ public class OI {
 		fieldOriented.whenPressed(new SetFieldOriented(false));
 		fieldOriented.whenReleased(new SetFieldOriented(true));
 		
-		resetGyro = new JoystickButton(gamepad, 6);
+		resetGyro = new JoystickButton(gamepad, 2);
 	    resetGyro.whenPressed(new ResetGyro());
 		
-		
+		if(Robot.oneController)
+		{
+			elevatorUp = new JoystickButton(gamepad, 4);
+			elevatorUp.whenPressed(new SetElevatorPosition(30));
+			
+			elevatorMiddle = new JoystickButton(gamepad, 3);
+			elevatorMiddle.whenPressed(new SetElevatorPosition(15));
+			
+			elevatorDown = new JoystickButton(gamepad, 1);
+			elevatorDown.whenPressed(new SetElevatorPosition(3));
+		}
+		else
+		{
+			elevatorUp = new JoystickButton(operator_gamepad, 4);
+			elevatorUp.whenPressed(new SetElevatorPosition(30));
+
+			elevatorMiddle = new JoystickButton(operator_gamepad, 3);
+			elevatorMiddle.whenPressed(new SetElevatorPosition(15));
+			
+			elevatorDown = new JoystickButton(operator_gamepad, 1);
+			elevatorDown.whenPressed(new SetElevatorPosition(3));
+		}
+	    
 //		testPosition = new JoystickButton(gamepad, 6);
 //		testPosition.whenPressed(new SetRobotPosition(0, 0));
 //		testPosition.whenPressed(new StartFromLeft());

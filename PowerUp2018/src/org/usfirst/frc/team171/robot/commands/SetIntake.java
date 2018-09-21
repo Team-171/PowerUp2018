@@ -1,5 +1,6 @@
 package org.usfirst.frc.team171.robot.commands;
 
+import org.usfirst.frc.team171.robot.Robot;
 import org.usfirst.frc.team171.robot.RobotMap;
 import org.usfirst.frc.team171.robot.triggers.WaitUntil;
 
@@ -26,16 +27,17 @@ public class SetIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.intake.runIntake(m_speed);
     	if(this.m_wait!=null)
     	{
     		if(m_wait.inTolerance())
     		{
-    			RobotMap.intake.runIntake(m_speed);
+    			Robot.intake.runIntake(m_speed);
     		}
     	}
     	else
     	{
-    		RobotMap.intake.runIntake(m_speed);
+    		Robot.intake.runIntake(m_speed);
     	}
     }
 

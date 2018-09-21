@@ -24,8 +24,9 @@ public class StartFromRight extends CommandGroup {
 
 	public StartFromRight() {
 
+		message = DriverStation.getInstance().getGameSpecificMessage();
 		
-		message = Robot.getGSM();
+//		message = Robot.getGSM();
 		
 		addSequential(new JoystickEnabled(false));
 		addParallel(new FlippyDowny(1));

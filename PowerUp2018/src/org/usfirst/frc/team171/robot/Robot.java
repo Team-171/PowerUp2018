@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team171.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -29,13 +32,17 @@ import org.usfirst.frc.team171.Autonomous.DoNothing;
 import org.usfirst.frc.team171.Autonomous.DriveStraightLeft;
 import org.usfirst.frc.team171.Autonomous.DriveStraightLeftt;
 import org.usfirst.frc.team171.Autonomous.DriveStraightRight;
+import org.usfirst.frc.team171.Autonomous.DriveStraightttttt;
 import org.usfirst.frc.team171.Autonomous.StartFromLeft;
 import org.usfirst.frc.team171.Autonomous.StartFromMiddle;
 import org.usfirst.frc.team171.Autonomous.StartFromRight;
 import org.usfirst.frc.team171.robot.commands.SetRobotPosition;
 import org.usfirst.frc.team171.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team171.robot.subsystems.Elevator;
 import org.usfirst.frc.team171.robot.subsystems.Gyro;
+import org.usfirst.frc.team171.robot.subsystems.Intake;
 import org.usfirst.frc.team171.robot.subsystems.JeVois;
+import org.usfirst.frc.team171.robot.subsystems.LEDs;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -51,12 +58,20 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	public static AHRS imu;
 	public static Gyro gyro;
+	public static Elevator elevator;
+	public static LEDs leds;
+	public static Intake intake;
 	public static Preferences prefs;
 	public static boolean joystickRunning = true;
 	public static edu.wpi.first.wpilibj.networktables.NetworkTable table;
+	private SendableChooser<Integer> autoSelection;
+	public Command autoCommand;
+	public UsbCamera visionCamera;
+	public static boolean oneController = false;
 
+	
 	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+//	SendableChooser<int> m_chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -78,25 +93,47 @@ public class Robot extends TimedRobot {
 		Timer.delay(3);
 
 		imu.reset();
+
 		gyro = new Gyro();
 		RobotMap.init();
+		leds = new LEDs(RobotMap.mainLEDControl, RobotMap.heightControl);
 		oi = new OI();
-		driveTrain = new DriveTrain();
-		m_chooser.addDefault("Start From Left", new StartFromLeft());
-		m_chooser.addObject("Start from middle", new StartFromMiddle());
-		m_chooser.addObject("Start from right", new StartFromRight());
-		m_chooser.addObject("Do nothing", new DoNothing());
-		m_chooser.addObject("Drive straight left", new DriveStraightLeft());
-		m_chooser.addObject("Drive straight right", new DriveStraightRight());
+		driveTrain = new DriveTrain(RobotMap.leftFrontSwerve, RobotMap.leftBackSwerve, RobotMap.rightFrontSwerve,
+				RobotMap.rightBackSwerve);
+		elevator = new Elevator(RobotMap.liftMotorLeft, RobotMap.liftMotorRight, RobotMap.elevatorPot);
+		intake = new Intake(RobotMap.leftArmMotor, RobotMap.rightArmMotor);
+
+//		visionCamera = CameraServer.getInstance().startAutomaticCapture(0);
+//		visionCamera.setResolution(320, 240);
+//		visionCamera.setBrightness(8);
+//		visionCamera.setExposureManual(1);
+//		visionCamera.setWhiteBalanceManual(1);
+		
+		autoSelection = new SendableChooser<Integer>();
+		
+		autoSelection.addDefault("Start From Left", 0);
+		autoSelection.addObject("Start from middle", 1);
+		autoSelection.addObject("Start from right", 2);
+		autoSelection.addObject("Do nothing", 3);
+		autoSelection.addObject("Drive straight left", 4);
+		autoSelection.addObject("Drive straight right", 5);
+		autoSelection.addObject("Drive straight Closed", 6);
+		
+//		m_chooser.addDefault("Start From Left", new StartFromLeft());
+//		m_chooser.addObject("Start from middle", new StartFromMiddle());
+//		m_chooser.addObject("Start from right", new StartFromRight());
+//		m_chooser.addObject("Do nothing", new DoNothing());
+//		m_chooser.addObject("Drive straight left", new DriveStraightLeft());
+//		m_chooser.addObject("Drive straight right", new DriveStraightRight());
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Auto mode", autoSelection);
 		prefs = Preferences.getInstance();
 
-		RobotMap.leftFrontSwerve.PIDController.setPIDF(0.015, 0.003, 0.002, 0.00);
-		RobotMap.leftBackSwerve.PIDController.setPIDF(0.015, 0.003, 0.002, 0.00);
-		RobotMap.rightFrontSwerve.PIDController.setPIDF(0.009, 0.001, 0.002, 0.00);
-		RobotMap.rightBackSwerve.PIDController.setPIDF(0.015, 0.003, 0.002, 0.00);
+		RobotMap.leftFrontSwerve.getPID().setPIDF(0.015, 0.003, 0.002, 0.00);
+		RobotMap.leftBackSwerve.getPID().setPIDF(0.015, 0.003, 0.002, 0.00);
+		RobotMap.rightFrontSwerve.getPID().setPIDF(0.009, 0.001, 0.002, 0.00);
+		RobotMap.rightBackSwerve.getPID().setPIDF(0.015, 0.003, 0.002, 0.00);
 
 		table = edu.wpi.first.wpilibj.networktables.NetworkTable.getTable("subWaypoint");
 	}
@@ -108,9 +145,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		prefs.putDouble("P", RobotMap.leftFrontSwerve.PIDController.getPIDController().getP());
-		prefs.putDouble("I", RobotMap.leftFrontSwerve.PIDController.getPIDController().getI());
-		prefs.putDouble("D", RobotMap.leftFrontSwerve.PIDController.getPIDController().getD());
+		prefs.putDouble("P", RobotMap.leftFrontSwerve.getPID().getPIDController().getP());
+		prefs.putDouble("I", RobotMap.leftFrontSwerve.getPID().getPIDController().getI());
+		prefs.putDouble("D", RobotMap.leftFrontSwerve.getPID().getPIDController().getD());
 	}
 
 	@Override
@@ -133,8 +170,40 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
-		RobotMap.shifter.set(true);
+//		m_autonomousCommand = m_chooser.getSelected();
+		
+		switch(autoSelection.getSelected())
+		{
+		case 0:
+			autoCommand = new StartFromLeft();
+			break;
+			
+		case 1:
+			autoCommand = new StartFromMiddle();
+			break;
+			
+		case 2:
+			autoCommand = new StartFromRight();
+			break;
+			
+		case 3:
+			autoCommand = new DoNothing();
+			break;
+			
+		case 4:
+			autoCommand = new DriveStraightLeft();
+			break;
+			
+		case 5:
+			autoCommand = new DriveStraightLeft();
+			break;
+			
+		case 6:
+			autoCommand = new DriveStraightttttt();
+			break;
+		}
+		
+//		RobotMap.shifter.set(true);
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -144,9 +213,11 @@ public class Robot extends TimedRobot {
 
 		// new DriveStraightLeft().start();
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		if (autoCommand != null) {
+			autoCommand.start();
 		}
+		
+		
 	}
 
 	/**
@@ -155,8 +226,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putBoolean("Auto Running", m_autonomousCommand.isRunning());
-		SmartDashboard.putString("Auto Name", m_autonomousCommand.getName());
+		SmartDashboard.putBoolean("Auto Running", autoCommand.isRunning());
+		SmartDashboard.putString("Auto Name", autoCommand.getName());
 		updateStatus();
 	}
 
@@ -166,8 +237,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autoCommand != null) {
+			autoCommand.cancel();
 		}
 
 		joystickRunning = true;
@@ -189,7 +260,7 @@ public class Robot extends TimedRobot {
 		gyro.resetGyro();
 		gyro.setTargetAngle(gyro.getGyroAngle());
 		// new SetRobotPosition(0, 0).start();
-		RobotMap.shifter.set(true);
+//		RobotMap.shifter.set(true);
 
 		// new SetRobotPosition(0, 20).start();
 	}
@@ -214,25 +285,33 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
-	
-	public static String getGSM(){
-		String message;
-		
-		do{
+
+	public static String getGSM() {
+		String message = "";
+		int counter = 0, maxCounts = 10;
+
+		do {
 			message = DriverStation.getInstance().getGameSpecificMessage();
-			
-			if(message==null)
-			{
+
+			if (message == null) {
 				message = "";
 			}
-			
+
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException ex) {
 			}
-		}while(message.isEmpty());
-		
+
+			counter++;
+		} while (message.isEmpty() && counter < maxCounts);
+
 		return message;
+	}
+
+	public static double round(double valueToRound, int numberOfDecimalPlaces) {
+		double multipicationFactor = Math.pow(10, numberOfDecimalPlaces);
+		double interestedInZeroDPs = valueToRound * multipicationFactor;
+		return Math.round(interestedInZeroDPs) / multipicationFactor;
 	}
 
 	public void updateStatus() {
@@ -240,20 +319,29 @@ public class Robot extends TimedRobot {
 		// RobotMap.leftFrontDirEncoder.getAngle());
 		gyro.updateStatus();
 		driveTrain.updateStatus();
-		RobotMap.elevator.updateStatus();
+		elevator.updateStatus();
+		leds.updateStatus();
 
-		SmartDashboard.putNumberArray("Swerve Angles: Left",
-				new double[] { RobotMap.leftFrontSwerve.directionEncoder.getAngle(),
-						RobotMap.leftBackSwerve.directionEncoder.getAngle() });
-		
-		SmartDashboard.putNumberArray("Swerve Angles: Right",
-				new double[] { RobotMap.rightFrontSwerve.directionEncoder.getAngle(),
-						RobotMap.rightBackSwerve.directionEncoder.getAngle() });
-		 
+		SmartDashboard.putNumberArray("Swerve Angles",
+				new double[] { round(RobotMap.leftFrontSwerve.getAbsEnc().getAngle(), 2),
+						round(RobotMap.leftBackSwerve.getAbsEnc().getAngle(), 2),
+						round(RobotMap.rightFrontSwerve.getAbsEnc().getAngle(), 2),
+						round(RobotMap.rightBackSwerve.getAbsEnc().getAngle(), 2) });
+
+		// SmartDashboard.putNumberArray("Swerve Angles: Left",
+		// new double[] {
+		// round(RobotMap.leftFrontSwerve.directionEncoder.getAngle(), 2),
+		// round(RobotMap.leftBackSwerve.directionEncoder.getAngle(), 2) });
+		//
+		// SmartDashboard.putNumberArray("Swerve Angles: Right",
+		// new double[] {
+		// round(RobotMap.rightFrontSwerve.directionEncoder.getAngle(), 2),
+		// round(RobotMap.rightBackSwerve.directionEncoder.getAngle(), 2) });
 
 		SmartDashboard.putNumberArray("Encoders", new double[] { RobotMap.leftFrontEncoder.get(),
 				RobotMap.leftBackEncoder.get(), RobotMap.rightFrontEncoder.get(), RobotMap.rightBackEncoder.get() });
 
+		SmartDashboard.putNumber("Back Left Drive", RobotMap.driveLeftBackMotor.getMotorOutputPercent());
 		// SmartDashboard.putNumber("Front Left Angle",
 		// RobotMap.leftFrontSwerve.directionEncoder.getAngle());
 		// SmartDashboard.putNumber("Back Left Angle",
@@ -272,8 +360,6 @@ public class Robot extends TimedRobot {
 		// RobotMap.rightFrontEncoder.get());
 		// SmartDashboard.putNumber("Encoder Back Right",
 		// RobotMap.rightBackEncoder.get());
-
-		SmartDashboard.putNumber("elevator", RobotMap.elevator.getElevatorPosition());
 
 		// SmartDashboard.putNumber("Displacement", imu.getVelocityX());
 

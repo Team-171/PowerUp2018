@@ -1,6 +1,5 @@
 package org.usfirst.frc.team171.Autonomous.Actions;
 
-import org.usfirst.frc.team171.Autonomous.WayPoint;
 import org.usfirst.frc.team171.RobotMotion.SetElevatorPosition;
 import org.usfirst.frc.team171.robot.commands.SetIntake;
 import org.usfirst.frc.team171.robot.commands.TimeDelay;

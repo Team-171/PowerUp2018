@@ -20,10 +20,10 @@ public class NoDriveMode extends InstantCommand {
     protected void initialize() {
     	Robot.joystickRunning = true;
     	
-    	RobotMap.leftFrontSwerve.PIDController.enable();
-    	RobotMap.leftBackSwerve.PIDController.enable();
-    	RobotMap.rightFrontSwerve.PIDController.enable();
-    	RobotMap.rightBackSwerve.PIDController.enable();
+    	RobotMap.leftFrontSwerve.getPID().enable();
+    	RobotMap.leftBackSwerve.getPID().enable();
+    	RobotMap.rightFrontSwerve.getPID().enable();
+    	RobotMap.rightBackSwerve.getPID().enable();
     }
 
 }

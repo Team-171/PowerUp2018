@@ -15,6 +15,7 @@ import org.usfirst.frc.team171.robot.subsystems.Intake;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -46,11 +47,11 @@ public class RobotMap {
 	public static PWMTalonSRX driveRightFrontDirMotor;
 	public static PWMTalonSRX driveRightBackDirMotor;
 	
-	public static PWMTalonSRX liftMotor;
+	public static PWMTalonSRX liftMotorRight;
+	public static PWMTalonSRX liftMotorLeft;
 	
 	public static PWMTalonSRX leftArmMotor;
 	public static PWMTalonSRX rightArmMotor;
-	public static PWMTalonSRX flipMotor;
 
 	public static AbsoluteEncoder leftFrontDirEncoder;
 	public static AbsoluteEncoder leftBackDirEncoder;
@@ -68,11 +69,10 @@ public class RobotMap {
 	public static SwerveModule rightFrontSwerve;
 	public static SwerveModule rightBackSwerve;
 	
-	public static Elevator elevator;
-	
-	public static Intake intake;
-	
 	public static Solenoid shifter;
+	
+	public static DigitalOutput mainLEDControl;
+	public static DigitalOutput heightControl;
 	
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
@@ -81,21 +81,23 @@ public class RobotMap {
 
 	
 	public static void init(){		
-		driveLeftFrontMotor = new TalonSRX(0);
-		driveLeftBackMotor = new TalonSRX(1);
-		driveRightFrontMotor = new TalonSRX(2);
-		driveRightBackMotor = new TalonSRX(3);
+		driveLeftFrontMotor = new TalonSRX(1);
+		driveLeftBackMotor = new TalonSRX(2);
+		driveRightFrontMotor = new TalonSRX(3);
+		driveRightBackMotor = new TalonSRX(4);
 				
-		driveLeftFrontDirMotor = new PWMTalonSRX(1);
-		driveLeftBackDirMotor = new PWMTalonSRX(2);
-		driveRightFrontDirMotor = new PWMTalonSRX(5);
-		driveRightBackDirMotor = new PWMTalonSRX(6);
+		driveLeftFrontDirMotor = new PWMTalonSRX(0);
+		driveLeftBackDirMotor = new PWMTalonSRX(1);
+		driveRightFrontDirMotor = new PWMTalonSRX(2);
+		driveRightBackDirMotor = new PWMTalonSRX(3);
 		
 		leftArmMotor = new PWMTalonSRX(15);
 		rightArmMotor = new PWMTalonSRX(16);
 		
-		liftMotor = new PWMTalonSRX(13);
-		flipMotor = new PWMTalonSRX(14);
+		liftMotorRight = new PWMTalonSRX(13);
+		liftMotorRight.setInverted(true);
+		liftMotorLeft = new PWMTalonSRX(14);
+		liftMotorLeft.setInverted(false);
 		
 		leftFrontDirEncoder = new AbsoluteEncoder(0);
 		leftBackDirEncoder = new AbsoluteEncoder(3);
@@ -108,19 +110,21 @@ public class RobotMap {
 		rightBackEncoder = new Encoder(11, 12);
 		elevatorPot = new AnalogInput(0);
 		
-		shifter = new Solenoid(4);
+//		shifter = new Solenoid(4);
+		mainLEDControl = new DigitalOutput(21);
+		mainLEDControl.setPWMRate(2000);
 		
-		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 256, 78.8, "Front Left");
+		heightControl = new DigitalOutput(22);
+		heightControl.setPWMRate(2000);
 		
-		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 128, 287., "Back Left");
+		leftFrontSwerve = new SwerveModule(driveLeftFrontMotor, leftFrontEncoder, driveLeftFrontDirMotor, leftFrontDirEncoder, 256, 79.7, "Front Left");
 		
-		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 128, 347, "Front Right");
+		leftBackSwerve = new SwerveModule(driveLeftBackMotor, leftBackEncoder, driveLeftBackDirMotor, leftBackDirEncoder, 128, 286.1, "Back Left");
+		
+		rightFrontSwerve = new SwerveModule(driveRightFrontMotor, rightFrontEncoder, driveRightFrontDirMotor, rightFrontDirEncoder, 128, 349.6, "Front Right");
 
-		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 256, 69.9, "Back Right");
+		rightBackSwerve = new SwerveModule(driveRightBackMotor, rightBackEncoder, driveRightBackDirMotor, rightBackDirEncoder, 256, 70.4, "Back Right");
 		
-		elevator = new Elevator(liftMotor, elevatorPot);
-		
-		intake = new Intake(leftArmMotor, rightArmMotor, flipMotor);
 		
 	}
 }

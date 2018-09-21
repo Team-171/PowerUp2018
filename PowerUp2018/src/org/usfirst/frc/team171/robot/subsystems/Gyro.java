@@ -43,35 +43,33 @@ public class Gyro extends Subsystem {
 	}
 
 	public void setTargetAngle(double targetAngle) {
-		
+
 		this.targetAngle = normalizeAngle(targetAngle);
 	}
-	
-	public double getAngleError(double angle){
+
+	public double getAngleError(double angle) {
 		angle = normalizeAngle(angle - getGyroAngle());
-		
-		if(angle<(-180))
-    	{
-    		angle += 360;
-    	}
-    	
-    	if(angle>180)
-    	{
-    		angle -= 360;
-    	}
-		
+
+		if (angle < (-180)) {
+			angle += 360;
+		}
+
+		if (angle > 180) {
+			angle -= 360;
+		}
+
 		return angle;
 	}
-	
-	public static double normalizeAngle(double angle){
+
+	public static double normalizeAngle(double angle) {
 		while (angle > 360) {
 			angle -= 360;
 		}
-		
-		while (angle < 0){
+
+		while (angle < 0) {
 			angle += 360;
 		}
-		
+
 		return angle;
 	}
 
@@ -84,14 +82,26 @@ public class Gyro extends Subsystem {
 		else
 			return 360 + targetError;
 	}
-	
-	public double getUnitCircleAngle(){
-		return 360 - normalizeAngle(getGyroAngle() - 90);
+
+	public double getUnitCircleAngle() {
+		return toUnitCircleAngle(getGyroAngle());
 	}
-	
-	public static double toUnitCircleAngle(double angle){
-		
+
+	public static double toUnitCircleAngle(double angle) {
+
 		return 360 - normalizeAngle(angle - 90);
+	}
+
+	/**
+	 * y = 360 - (x - 90)
+	 * y = 270 - x
+	 * x = 270 - y
+	 * @param angle
+	 * @return
+	 */
+	public static double toGyroCircleAngle(double angle) {
+
+		return normalizeAngle(270 - angle);
 	}
 
 	public double getTargetYawComp() {
@@ -107,9 +117,9 @@ public class Gyro extends Subsystem {
 
 	public void updateStatus() {
 		SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
-//		SmartDashboard.putNumber("Gyro Target Angle", GetTargetAngle());
-//		SmartDashboard.putNumber("Gyro Error", getTargetYawComp());
-//		SmartDashboard.putNumber("Gyro Target Error", getTargetError());
-//		SmartDashboard.putNumber("Unit Circle Angle", getUnitCircleAngle());
+		// SmartDashboard.putNumber("Gyro Target Angle", GetTargetAngle());
+		// SmartDashboard.putNumber("Gyro Error", getTargetYawComp());
+		// SmartDashboard.putNumber("Gyro Target Error", getTargetError());
+		// SmartDashboard.putNumber("Unit Circle Angle", getUnitCircleAngle());
 	}
 }

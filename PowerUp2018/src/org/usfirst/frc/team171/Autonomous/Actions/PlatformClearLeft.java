@@ -1,7 +1,5 @@
 package org.usfirst.frc.team171.Autonomous.Actions;
 
-import org.usfirst.frc.team171.Autonomous.WayPoint;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
